@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Demande implements Serializable {
@@ -15,6 +16,12 @@ public class Demande implements Serializable {
     private String denomination;
     private Date dateDemande;
     private Integer nbDemandes;
+    
+    @ManyToOne
+    private Activite activite;
+    
+    @ManyToOne
+    private Adherent demandeur;
 
     public Demande() {
     }

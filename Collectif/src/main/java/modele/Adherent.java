@@ -2,10 +2,13 @@ package modele;
 
 import com.google.maps.model.LatLng;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Adherent implements Serializable {
@@ -19,6 +22,12 @@ public class Adherent implements Serializable {
     private Double longitude;
     private Double latitude;
     private String mdp;
+    
+    @OneToMany
+    private List<Demande> demandes;
+    
+    @ManyToMany
+    private List <Evenement> evenements;
 
     public Adherent() {
     }

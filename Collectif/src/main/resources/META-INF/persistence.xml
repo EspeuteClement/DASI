@@ -3,6 +3,12 @@
   <persistence-unit name="collectifPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>modele.Adherent</class>
+    <class>modele.Activite</class>
+    <class>modele.Demande</class>
+    <class>modele.Lieu</class>
+    <class>modele.Evenement</class>
+    <class>modele.EvenementParEquipe</class>
+    <class>modele.EvenementSansEquipe</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Collectoif_DB"/>
       <property name="javax.persistence.jdbc.user" value="theadmin"/>
