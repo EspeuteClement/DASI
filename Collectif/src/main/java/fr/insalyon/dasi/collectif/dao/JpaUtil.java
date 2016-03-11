@@ -1,5 +1,4 @@
-package dao;
-
+package fr.insalyon.dasi.collectif.dao;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
