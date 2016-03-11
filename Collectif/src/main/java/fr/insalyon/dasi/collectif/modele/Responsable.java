@@ -4,9 +4,9 @@ public class Responsable  {
     private String mail;
     private String mdp;
 
-    public Responsable(String mail, String mdp) {
-        this.mail = mail;
-        this.mdp = mdp;
+    public Responsable() {
+        this.mail = "admin";
+        this.mdp = "admin";
     }
 
     public String getMail() {
