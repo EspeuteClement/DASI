@@ -1,4 +1,4 @@
-package fr.insalyon.dasi.collectif.modele;
+package modele;
 
 import com.google.maps.model.LatLng;
 import java.io.Serializable;

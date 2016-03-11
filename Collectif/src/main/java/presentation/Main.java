@@ -1,6 +1,6 @@
-package fr.insalyon.dasi.collectif.presentation;
+package presentation;
 
-import fr.insalyon.dasi.collectif.service.ServiceMetier;
+import service.ServiceMetier;
 
 public class Main {
     public static void main(String[] args) {

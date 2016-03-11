@@ -1,4 +1,4 @@
-package fr.insalyon.dasi.collectif.modele;
+package modele;
 
 
 public class EvenementSansEquipe extends Evenement{

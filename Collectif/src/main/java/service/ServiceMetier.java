@@ -1,8 +1,8 @@
-package fr.insalyon.dasi.collectif.service;
+package service;
 
-import fr.insalyon.dasi.collectif.modele.Adherent;
-import fr.insalyon.dasi.collectif.dao.AdherentDao;
-import fr.insalyon.dasi.collectif.dao.JpaUtil;
+import modele.Adherent;
+import dao.AdherentDao;
+import dao.JpaUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +13,8 @@ public class ServiceMetier {
         
         Adherent nouvelAdherent = new Adherent(nom,prenom,adresse,mail,mdp,false);
         
+        JpaUtil.creerEntityManager();
+        
         JpaUtil.ouvrirTransaction();
         
         try {
@@ -22,6 +24,8 @@ public class ServiceMetier {
         }
         
         JpaUtil.validerTransaction();
+        
+        JpaUtil.fermerEntityManager();
         
         return nouvelAdherent;
     }

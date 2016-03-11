@@ -1,9 +1,9 @@
-package fr.insalyon.dasi.collectif.dao;
+package dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import fr.insalyon.dasi.collectif.modele.Lieu;
+import modele.Lieu;
 
 public class LieuDao {
     
