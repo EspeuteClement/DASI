@@ -1,0 +1,33 @@
+Wed Feb 10 14:45:11 CET 2016 : Apache Derby Serveur réseau - 10.8.3.2 - (1557835) démarré et prêt à accepter les connexions sur le port 1527
+----------------------------------------------------------------
+Wed Feb 10 14:45:11 CET 2016:
+Amorçage de Derby version The Apache Software Foundation - Apache Derby - 10.8.3.2 - (1557835) : instance a816c00e-0152-cb6d-b7e6-0000088d160e 
+dans le répertoire de base de données C:\Temp\DASI_IF_CAPELLE_3427\DB\TD-JPA  avec le chargeur de classe sun.misc.Launcher$AppClassLoader@2d4b1fda
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_71-b14
+user.dir=C:\Program Files\Java\jdk1.7.0_71\db
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=C:\Temp\DASI_IF_CAPELLE_3427\DB
+Chargeur de classe de la base de données démarré - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Feb 10 14:45:15 CET 2016:
+Fermeture de l'instance a816c00e-0152-cb6d-b7e6-0000088d160e sur le répertoire de base de données C:\Temp\DASI_IF_CAPELLE_3427\DB\TD-JPA avec le chargeur de classe sun.misc.Launcher$AppClassLoader@2d4b1fda
+Wed Feb 10 14:45:15 CET 2016 Thread[DRDAConnThread_4,5,main] (DATABASE = TD-JPA), (DRDAID = {2}), Arrêt de la base de données 'TD-JPA'.
+----------------------------------------------------------------
+Wed Feb 10 14:45:20 CET 2016:
+Amorçage de Derby version The Apache Software Foundation - Apache Derby - 10.8.3.2 - (1557835) : instance 6c44409f-0152-cb6d-b7e6-0000088d160e 
+dans le répertoire de base de données C:\Temp\DASI_IF_CAPELLE_3427\DB\TD-JPA  avec le chargeur de classe sun.misc.Launcher$AppClassLoader@2d4b1fda
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_71-b14
+user.dir=C:\Program Files\Java\jdk1.7.0_71\db
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=C:\Temp\DASI_IF_CAPELLE_3427\DB
+Chargeur de classe de la base de données démarré - derby.database.classpath=''
+----------------------------------------------------------------
+Wed Feb 10 15:47:25 CET 2016 : fermeture du moteur Derby
