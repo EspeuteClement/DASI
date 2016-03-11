@@ -1,8 +1,10 @@
 package service;
 
+import com.google.maps.model.LatLng;
 import modele.Adherent;
 import dao.AdherentDao;
 import dao.JpaUtil;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,6 +14,10 @@ public class ServiceMetier {
         AdherentDao adherentDao = new AdherentDao();
         
         Adherent nouvelAdherent = new Adherent(nom,prenom,adresse,mail,mdp,false);
+        
+        LatLng geoloc = ServiceTechnique.recuperationGeoloc(adresse);
+        
+        nouvelAdherent.setCoordonnees(geoloc);
         
         JpaUtil.creerEntityManager();
         
@@ -29,5 +35,35 @@ public class ServiceMetier {
         
         return nouvelAdherent;
     }
+    
+    static public Adherent connexionAdherent(String mail, String mdp)
+    {
+        List<Adherent> listeAdherent = null;
+        AdherentDao adherentDao = new AdherentDao();
+        
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        
+        try {
+            listeAdherent = adherentDao.findByMail(mail);
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for (int i = 0; i<listeAdherent.size(); i++)
+        {
+            Adherent adherent;
+            adherent = listeAdherent.get(i);
+            
+            if(adherent.getMail()==mail && adherent.getMdp()==mdp)
+            {
+                return adherent;
+            }
+        }
+        
+        return null;
+    }
+    
+    
 
 }
