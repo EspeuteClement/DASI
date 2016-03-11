@@ -38,20 +38,6 @@ public class DemandeDao {
         return demande;
     }
 
-    public List<Demande> findByMail(Adherent adherent) throws Throwable {
-
-        EntityManager em = JpaUtil.obtenirEntityManager();
-        List<Demande> demandes = null;
-        try {
-            Query q = em.createQuery("SELECT d FROM Demande d WHERE d.demandeur=" + adherent.getId() + "");
-            demandes = (List<Demande>) q.getResultList();
-        } catch (Exception e) {
-            throw e;
-        }
-        
-        return demandes;
-    }
-
     public List<Demande> findAll() throws Throwable {
         EntityManager em = JpaUtil.obtenirEntityManager();
         List<Demande> demandes = null;
