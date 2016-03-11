@@ -55,7 +55,7 @@ public class Demande implements Serializable {
 
     @Override
     public String toString() {
-        return "Activite{" + "id=" + id + ", denomination=" + denomination + ", nbDemandes=" + nbDemandes + '}';
+        return "Activite{" + "id=" + id + ", denomination=" + denomination + ", nbDemandes=" + nbDemandes + ", Date=" + dateDemande.toString() + '}';
     }
        
 }
