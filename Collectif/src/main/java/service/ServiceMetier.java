@@ -38,7 +38,17 @@ public class ServiceMetier {
     
     static public Adherent connexionAdherent(String mail, String mdp)
     {
-        List<Adherent> listeAdherent = ServiceTechnique.listeAdherent();
+        List<Adherent> listeAdherent = null;
+        AdherentDao adherentDao = new AdherentDao();
+        
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        
+        try {
+            listeAdherent = adherentDao.findByMail(mail);
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         for (int i = 0; i<listeAdherent.size(); i++)
         {
