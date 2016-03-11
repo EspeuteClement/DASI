@@ -8,10 +8,12 @@ import java.util.logging.Logger;
 
 public class ServiceMetier {
 
-    public Adherent inscrireAdherent(String nom, String prenom, String adresse, String mail, String mdp) {
+    static public Adherent inscrireAdherent(String nom, String prenom, String adresse, String mail, String mdp) {
         AdherentDao adherentDao = new AdherentDao();
         
         Adherent nouvelAdherent = new Adherent(nom,prenom,adresse,mail,mdp,false);
+        
+        JpaUtil.creerEntityManager();
         
         JpaUtil.ouvrirTransaction();
         
@@ -22,6 +24,8 @@ public class ServiceMetier {
         }
         
         JpaUtil.validerTransaction();
+        
+        JpaUtil.fermerEntityManager();
         
         return nouvelAdherent;
     }
