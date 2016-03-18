@@ -20,8 +20,8 @@ public class Adherent implements Serializable {
     private String nom;
     private String prenom;
     @Column(unique=true)
-    private String mail;
     private String adresse;
+    private String mail;
     private Double longitude;
     private Double latitude;
     private String mdp;
@@ -35,11 +35,11 @@ public class Adherent implements Serializable {
     public Adherent() {
     }
 
-    public Adherent(String nom, String prenom, String mail, String adresse, String mdp) {
+    public Adherent(String nom, String prenom, String adresse, String mail, String mdp) {
         this.nom = nom;
         this.prenom = prenom;
-        this.mail = mail;
         this.adresse = adresse;
+        this.mail = mail;
         this.longitude = 0.0;
         this.latitude = 0.0;
         this.mdp = mdp;
