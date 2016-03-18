@@ -25,8 +25,12 @@ public class ServiceMetier {
         
         try {
             adherentDao.create(nouvelAdherent);
+            ServiceTechnique.mailAdherentInscription(nouvelAdherent, true);
+            ServiceTechnique.mailResponsableInscription(nouvelAdherent, true);
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+            ServiceTechnique.mailAdherentInscription(nouvelAdherent, false);
+            ServiceTechnique.mailResponsableInscription(nouvelAdherent, false);
         }
         
         JpaUtil.validerTransaction();
@@ -55,7 +59,7 @@ public class ServiceMetier {
             Adherent adherent;
             adherent = listeAdherent.get(i);
             
-            if(adherent.getMail()==mail && adherent.getMdp()==mdp)
+            if(adherent.getMdp().equals(mdp))
             {
                 return adherent;
             }
