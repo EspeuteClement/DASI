@@ -6,8 +6,10 @@ import modele.Adherent;
 import dao.AdherentDao;
 import dao.DemandeDao;
 import dao.JpaUtil;
+import dao.LieuDao;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +17,7 @@ import javax.persistence.RollbackException;
 import modele.Activite;
 import modele.Demande;
 import modele.Evenement;
+import modele.Lieu;
 
 public class ServiceMetier {
 
@@ -170,9 +173,9 @@ public class ServiceMetier {
     
     static public void creerEvenement(Demande pDemande)
     {
-        int nbDemandes = 0;
         DemandeDao demandeDao = new DemandeDao();
         List<Demande> demandes = null;
+        List<Demande> evenementDemandes = new ArrayList();
         
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
@@ -187,17 +190,37 @@ public class ServiceMetier {
         {
             if(demandes.get(i).getActivite().equals(pDemande.getActivite()) && demandes.get(i).getDateEvenement().equals(pDemande.getDateEvenement()))
             {
-                nbDemandes++;
+                evenementDemandes.add(demandes.get(i));
             }
         }
         
-        if(nbDemandes >= pDemande.getActivite().getNbParticipants())
+        if(evenementDemandes.size() >= pDemande.getActivite().getNbParticipants())
         {
             //Créer Evenement
         }
         
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
+    }
+    
+    static public List<Lieu> recupererLieu()
+    {
+        LieuDao lieuDao = new LieuDao();
+        List<Lieu> lieux = null;
+        
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        
+        try {
+            lieux=lieuDao.findAll();
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
+        
+        return lieux;
     }
 
 }
