@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 import modele.Activite;
 import modele.Demande;
+import modele.Evenement;
 
 public class ServiceMetier {
 
@@ -21,13 +22,11 @@ public class ServiceMetier {
         AdherentDao adherentDao = new AdherentDao();
         Adherent nouvelAdherent = new Adherent(nom,prenom,adresse,mail,mdp);
         LatLng geoloc = ServiceTechnique.recuperationGeoloc(adresse);
+        boolean succes = true;
 
         nouvelAdherent.setCoordonnees(geoloc);
 
-        boolean succes = true;
-
         JpaUtil.creerEntityManager();
-
         JpaUtil.ouvrirTransaction();
 
         try {
@@ -79,26 +78,23 @@ public class ServiceMetier {
         return null;
     }
     
-    static public List<Adherent> listeAdherent() {
-        List<Adherent> listAdherent = null;
-
+    static public List<Demande> recupererAdherentDemandes(long idAdherent)
+    {
         AdherentDao adherentDao = new AdherentDao();
-
+        Adherent adherent = null;
+        List<Demande> adherentDemandes = null;
+        
         JpaUtil.creerEntityManager();
-
         JpaUtil.ouvrirTransaction();
-
+        
         try {
-            listAdherent = adherentDao.findAll();
+            adherent=adherentDao.findById(idAdherent);
+            adherentDemandes=adherent.getDemandes();
         } catch (Throwable ex) {
-            Logger.getLogger(ServiceTechnique.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        JpaUtil.validerTransaction();
-
-        JpaUtil.fermerEntityManager();
-
-        return listAdherent;
+        
+        return adherentDemandes;
     }
 
     static public List<Activite> recupererActivites() {
@@ -155,23 +151,53 @@ public class ServiceMetier {
                 adherentDao.update(demandeur);
             } catch (Throwable ex) {
                 Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
-                succes = false;
             }
 
-            if (succes) {
+            /*if (succes) {
                 ServiceMetier.creerEvenement(nouvelDemande);
-            }
+            }*/
         }
 
-        JpaUtil.validerTransaction();
+        try {
+            JpaUtil.validerTransaction();
+        } catch (RollbackException ex) {
+            succes = false;
+        }
         JpaUtil.fermerEntityManager();
 
         return succes;
     }
     
-        static public void creerEvenement(Demande pDemande)
+    static public void creerEvenement(Demande pDemande)
     {
+        int nbDemandes = 0;
+        DemandeDao demandeDao = new DemandeDao();
+        List<Demande> demandes = null;
         
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        
+        try {
+            demandes = demandeDao.findAll();
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for (int i = 0 ; i<demandes.size() ; i ++)
+        {
+            if(demandes.get(i).getActivite().equals(pDemande.getActivite()) && demandes.get(i).getDateEvenement().equals(pDemande.getDateEvenement()))
+            {
+                nbDemandes++;
+            }
+        }
+        
+        if(nbDemandes >= pDemande.getActivite().getNbParticipants())
+        {
+            //Créer Evenement
+        }
+        
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
     }
 
 }
