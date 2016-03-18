@@ -3,23 +3,19 @@ package modele;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-@Inheritance (strategy = InheritanceType.JOINED)
+@Entity
 public abstract class Evenement implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String denomination;
-    @Temporal(TemporalType.DATE)
     private Date dateEvenement;
     
     @ManyToOne
@@ -61,7 +57,6 @@ public abstract class Evenement implements Serializable {
 
     @Override
     public String toString() {
-        return "Activite{" + "id=" + id + ", denomination=" + denomination + ", Date=" + dateEvenement.toString() + '}';
+        return "Evenement{" + "id=" + id + ", denomination=" + denomination + ", Date=" + dateEvenement.toString() + '}';
     }
-       
 }
