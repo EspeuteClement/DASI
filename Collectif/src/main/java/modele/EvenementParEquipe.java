@@ -27,4 +27,18 @@ public class EvenementParEquipe extends Evenement {
     public void setEquipeB(List<Adherent> equipeB) {
         this.equipeB = equipeB;
     }
+    
+    @Override
+    public String toString() {
+        String output = super.toString();
+        output += "Participants de l'équipe A :\r\n";
+        for(Adherent participant : equipeA) {
+            output += participant.toString() + "\r\n";
+        }
+        output += "Participants de l'équipe B :\r\n";
+        for(Adherent participant : equipeB) {
+            output += participant.toString() + "\r\n";
+        }
+        return output;
+    }
 }
