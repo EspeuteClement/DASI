@@ -30,9 +30,10 @@ public class Evenement implements Serializable {
     public Evenement() {
     }
 
-    public Evenement(String denomination, Date date, Integer nbDemandes) {
+    public Evenement(String denomination, Date date, Lieu lieu, Activite activite, List<Demande> demandes) {
         this.denomination = denomination;
         this.dateEvenement = date;
+        
     }
 
     public Integer getId() {

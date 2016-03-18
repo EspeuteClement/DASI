@@ -13,9 +13,8 @@ public class Demande implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String denomination;
     private Date dateDemande;
-    private Integer nbDemandes;
+    private Date dateEvenement;
     
     @ManyToOne
     private Activite activite;
@@ -26,43 +25,52 @@ public class Demande implements Serializable {
     public Demande() {
     }
 
-    public Demande(String denomination, Date date, Integer nbDemandes) {
-        this.denomination = denomination;
-        this.dateDemande = date;
-        this.nbDemandes = nbDemandes;
+    public Demande(Date dateDemande, Date dateEvenement, Activite activite, Adherent demandeur) {
+        this.dateDemande = dateDemande;
+        this.dateEvenement = dateEvenement;
+        this.activite = activite;
+        this.demandeur = demandeur;
     }
 
     public Integer getId() {
         return id;
     }
-
-    public String getDenomination() {
-        return denomination;
-    }
     
-    public Date getDate() {
+    public Date getDateDemande() {
         return dateDemande;
     }
-
-    public Integer getNbDemandes() {
-        return nbDemandes;
-    }
-
-    public void setDenomination(String denomination) {
-        this.denomination = denomination;
+    
+    public Date getDateEvenement() {
+        return dateEvenement;
     }
     
-    public void setDate(Date date) {
-        this.dateDemande = date;
+    public Activite getActivite() {
+        return activite;
     }
-
-    public void setNbDemandes(Integer nbDemandes) {
-        this.nbDemandes = nbDemandes;
+    
+    public Adherent getDemandeur() {
+        return demandeur;
+    }
+    
+    public void setDateDemande(Date dateDemande) {
+        this.dateDemande = dateDemande;
+    }
+    
+    public void setDateEvenement(Date dateEvenement) {
+        this.dateDemande = dateEvenement;
+    }
+    
+    public void setActivite(Activite activite) {
+        this.activite = activite;
+    }
+    
+    public void setDemandeur(Adherent demandeur) {
+        this.demandeur = demandeur;
     }
 
     @Override
     public String toString() {
-        return "Activite{" + "id=" + id + ", denomination=" + denomination + ", nbDemandes=" + nbDemandes + ", Date=" + dateDemande.toString() + '}';
+        return "Activite{" + "id=" + id + ", DateDemande=" + dateDemande.toString() + ", DateEvenement="+ dateEvenement.toString() + activite.toString() + demandeur.toString() + '}';
     }
        
 }
