@@ -2,7 +2,6 @@ package modele;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +15,6 @@ public abstract class Evenement implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String denomination;
     private Date dateEvenement;
     
     @ManyToOne
@@ -31,28 +29,19 @@ public abstract class Evenement implements Serializable {
     public Evenement() {
     }
 
-    public Evenement(String denomination, Date date, Lieu lieu, Activite activite) {
-        this.denomination = denomination;
+    public Evenement(Date date, Lieu lieu, Activite activite, List<Demande> demandes) {
         this.dateEvenement = date;
-        this.lieu = lieu;
+        this.lieu = new Lieu();
         this.activite = activite;
-        this.demandes = new ArrayList<>();
+        this.demandes = demandes;
     }
 
     public Integer getId() {
         return id;
     }
-
-    public String getDenomination() {
-        return denomination;
-    }
     
     public Date getDate() {
         return dateEvenement;
-    }
-
-    public void setDenomination(String denomination) {
-        this.denomination = denomination;
     }
     
     public void setDate(Date date) {
@@ -61,6 +50,12 @@ public abstract class Evenement implements Serializable {
 
     @Override
     public String toString() {
-        return "Evenement{" + "id=" + id + ", denomination=" + denomination + ", Date=" + dateEvenement.toString() + lieu.toString() + '}';
+        String output = "Evenement{" + "id=" + id + ", Date=" +
+                dateEvenement.toString() + " " + lieu.toString() + " " +
+                activite.toString() + "\r\nDemandes de l'évènement :\r\n" + '}';
+        for(Demande demande : demandes) {
+            output += demande.toString() + "\r\n";
+        }
+        return output;
     }
 }

@@ -16,4 +16,14 @@ public class EvenementSansEquipe extends Evenement{
     public void setParticipants(List<Adherent> participants) {
         this.participants = participants;
     }
+    
+        @Override
+    public String toString() {
+        String output = super.toString();
+        output += "Participants :\r\n";
+        for(Adherent participant : participants) {
+            output += participant.toString() + "\r\n";
+        }
+        return output;
+    }
 }

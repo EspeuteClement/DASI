@@ -132,7 +132,7 @@ public class Adherent implements Serializable {
         }
         output += "Evenements de l'adhérent :\r\n";
         for(Evenement evenement : evenements) {
-            output += evenements.toString() + "\r\n";
+            output += evenement.toString() + "\r\n";
         }
         return output;
     }
