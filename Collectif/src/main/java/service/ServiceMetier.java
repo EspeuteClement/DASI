@@ -5,12 +5,14 @@ import dao.ActiviteDao;
 import modele.Adherent;
 import dao.AdherentDao;
 import dao.DemandeDao;
+import dao.EvenementDao;
 import dao.JpaUtil;
 import dao.LieuDao;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.RollbackException;
@@ -18,6 +20,7 @@ import modele.Activite;
 import modele.Demande;
 import modele.Evenement;
 import modele.EvenementParEquipe;
+import modele.EvenementSansEquipe;
 import modele.Lieu;
 
 public class ServiceMetier {
@@ -187,7 +190,7 @@ public class ServiceMetier {
         
             for (int i = 0 ; i<demandes.size() ; i ++)
             {
-                if(demandes.get(i).getActivite().equals(pDemande.getActivite()) && demandes.get(i).getDateEvenement().equals(pDemande.getDateEvenement()))
+                if(demandes.get(i).getActivite().equals(pDemande.getActivite()) && demandes.get(i).getDateEvenement().equals(pDemande.getDateEvenement()));
                 {
                     evenementDemandes.add(demandes.get(i));
                     participants.add(demandes.get(i).getDemandeur());
@@ -196,13 +199,35 @@ public class ServiceMetier {
 
             if(evenementDemandes.size() >= pDemande.getActivite().getNbParticipants())
             {
+                EvenementDao evenementDao = new EvenementDao();
+                
                 if(pDemande.getActivite().isParEquipe())
                 {
+                    EvenementParEquipe nouvelEvenement = new EvenementParEquipe(pDemande.getDateEvenement(),pDemande.getActivite(),evenementDemandes);
                     
+                    for (int i = 0 ; i <pDemande.getActivite().getNbParticipants() ; i++)
+                    {
+                        Random rand = new Random();
+                        int nombreAleatoire = rand.nextInt(pDemande.getActivite().getNbParticipants()-i);
+                        
+                        if(i%2 == 0)
+                        {
+                            nouvelEvenement.getEquipeA().add(participants.get(nombreAleatoire));
+                            participants.remove(nombreAleatoire);
+                        }
+                        else
+                        {
+                            nouvelEvenement.getEquipeB().add(participants.get(nombreAleatoire));
+                            participants.remove(nombreAleatoire);
+                        }
+                    }
+                    
+                    evenementDao.create(nouvelEvenement);
                 }
                 else
                 {
-                    
+                    EvenementSansEquipe nouvelEvenement = new EvenementSansEquipe(pDemande.getDateEvenement(),pDemande.getActivite(),evenementDemandes,participants);
+                    evenementDao.create(nouvelEvenement);
                 }
             }
         } catch (Throwable ex) {
