@@ -108,6 +108,7 @@ public class JpaUtil {
             em.getTransaction().commit();
         } catch (Exception ex) {
             Logger.getLogger(JpaUtil.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
     }
 
