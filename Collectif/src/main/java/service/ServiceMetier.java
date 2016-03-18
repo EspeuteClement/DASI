@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.RollbackException;
 import modele.Activite;
 import modele.Demande;
 
@@ -18,133 +19,161 @@ public class ServiceMetier {
 
     static public boolean inscrireAdherent(String nom, String prenom, String adresse, String mail, String mdp) {
         AdherentDao adherentDao = new AdherentDao();
-        
-        Adherent nouvelAdherent = new Adherent(nom,prenom,adresse,mail,mdp,false);
-        
+
+        Adherent nouvelAdherent = new Adherent(nom, prenom, adresse, mail, mdp, false);
+
         LatLng geoloc = ServiceTechnique.recuperationGeoloc(adresse);
-        
+
         nouvelAdherent.setCoordonnees(geoloc);
-        
+
         boolean succes = true;
-        
+
         JpaUtil.creerEntityManager();
-        
+
         JpaUtil.ouvrirTransaction();
-        
+
         try {
             adherentDao.create(nouvelAdherent);
-            ServiceTechnique.mailAdherentInscription(nouvelAdherent, true);
-            ServiceTechnique.mailResponsableInscription(nouvelAdherent, true);
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
-            ServiceTechnique.mailAdherentInscription(nouvelAdherent, false);
-            ServiceTechnique.mailResponsableInscription(nouvelAdherent, false);
-            succes=false;
+            succes = false;
         }
-        
-        JpaUtil.validerTransaction();
-        
+
+        try {
+            JpaUtil.validerTransaction();
+        } catch (RollbackException ex) {
+            succes = false;
+        }
+
         JpaUtil.fermerEntityManager();
-        
+
+        ServiceTechnique.mailAdherentInscription(nouvelAdherent, succes);
+        ServiceTechnique.mailResponsableInscription(nouvelAdherent, succes);
+
         return succes;
     }
-    
-    static public Adherent connexionAdherent(String mail, String mdp)
-    {
+
+    static public Adherent connexionAdherent(String mail, String mdp) {
         List<Adherent> listeAdherent = null;
         AdherentDao adherentDao = new AdherentDao();
-        
+
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
-        
+
         try {
             listeAdherent = adherentDao.findByMail(mail);
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
-        
-        for (int i = 0; i<listeAdherent.size(); i++)
-        {
+
+        for (int i = 0; i < listeAdherent.size(); i++) {
             Adherent adherent;
             adherent = listeAdherent.get(i);
-            
-            if(adherent.getMdp().equals(mdp))
-            {
+
+            if (adherent.getMdp().equals(mdp)) {
                 return adherent;
             }
         }
-        
+
         return null;
     }
     
-    static public List<Activite> recupererActivites()
-    {
+    static public List<Adherent> listeAdherent() {
+        List<Adherent> listAdherent = null;
+
+        AdherentDao adherentDao = new AdherentDao();
+
+        JpaUtil.creerEntityManager();
+
+        JpaUtil.ouvrirTransaction();
+
+        try {
+            listAdherent = adherentDao.findAll();
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceTechnique.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        JpaUtil.validerTransaction();
+
+        JpaUtil.fermerEntityManager();
+
+        return listAdherent;
+    }
+
+    static public List<Activite> recupererActivites() {
         ActiviteDao activiteDao = new ActiviteDao();
         List<Activite> activiteList = null;
-        
+
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
-        
+
         try {
             activiteList = activiteDao.findAll();
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
-        
+
         return activiteList;
     }
-    
-    static public boolean posterDemande(long idAdherent, long idActivite, Date date )
-    {
+
+    static public boolean posterDemande(long idAdherent, long idActivite, Date date) {
         AdherentDao adherentDao = new AdherentDao();
         ActiviteDao activiteDao = new ActiviteDao();
         DemandeDao demandeDao = new DemandeDao();
         boolean succes = true;
-        
+
         Adherent demandeur = null;
         Activite activite = null;
-        
+
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
-        
+
         try {
             demandeur = adherentDao.findById(idAdherent);
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         try {
             activite = activiteDao.findById(idActivite);
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        if(demandeur == null || activite == null)
-        {
-            succes=false;
-        }
-        else
-        {
-            Demande nouvelDemande = new Demande(date,Date.valueOf(LocalDate.now()),activite,demandeur);
-            
+
+        if (demandeur == null || activite == null) {
+            succes = false;
+        } else {
+            Demande nouvelDemande = new Demande(date, Date.valueOf(LocalDate.now()), activite, demandeur);
+
             try {
                 demandeDao.create(nouvelDemande);
+                demandeur.getDemandes().add(nouvelDemande);
+                adherentDao.update(demandeur);
             } catch (Throwable ex) {
                 Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+                succes = false;
             }
-            
+
+            if (succes) {
+                ServiceMetier.creerEvenement(nouvelDemande);
+            }
         }
-        
+
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
-        
+
         return succes;
+    }
+    
+        static public void creerEvenement(Demande pDemande)
+    {
+        
     }
 
 }
