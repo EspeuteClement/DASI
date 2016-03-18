@@ -8,6 +8,7 @@ import dao.DemandeDao;
 import dao.JpaUtil;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -170,9 +171,9 @@ public class ServiceMetier {
     
     static public void creerEvenement(Demande pDemande)
     {
-        int nbDemandes = 0;
         DemandeDao demandeDao = new DemandeDao();
         List<Demande> demandes = null;
+        List<Demande> evenementDemandes = new ArrayList();
         
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
@@ -187,11 +188,11 @@ public class ServiceMetier {
         {
             if(demandes.get(i).getActivite().equals(pDemande.getActivite()) && demandes.get(i).getDateEvenement().equals(pDemande.getDateEvenement()))
             {
-                nbDemandes++;
+                evenementDemandes.add(demandes.get(i));
             }
         }
         
-        if(nbDemandes >= pDemande.getActivite().getNbParticipants())
+        if(evenementDemandes.size() >= pDemande.getActivite().getNbParticipants())
         {
             //Créer Evenement
         }
