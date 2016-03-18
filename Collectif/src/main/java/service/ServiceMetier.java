@@ -19,7 +19,7 @@ public class ServiceMetier {
     static public boolean inscrireAdherent(String nom, String prenom, String adresse, String mail, String mdp) {
         AdherentDao adherentDao = new AdherentDao();
         
-        Adherent nouvelAdherent = new Adherent(nom,prenom,adresse,mail,mdp,false);
+        Adherent nouvelAdherent = new Adherent(nom,prenom,adresse,mail,mdp);
         
         LatLng geoloc = ServiceTechnique.recuperationGeoloc(adresse);
         

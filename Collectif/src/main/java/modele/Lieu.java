@@ -25,6 +25,8 @@ public class Lieu implements Serializable {
         this.denomination = denomination;
         this.description = description;
         this.adresse = adresse;
+        this.longitude = 0.0;
+        this.latitude = 0.0;
     }
 
 
@@ -35,7 +37,6 @@ public class Lieu implements Serializable {
     public String getDenomination() {
         return denomination;
     }
-
 
     public String getDescription() {
         return description;
@@ -51,11 +52,6 @@ public class Lieu implements Serializable {
 
     public Double getLatitude() {
         return latitude;
-    }
-    
-    public void setCoordonnees(LatLng latLng) {
-        this.longitude = latLng.lng;
-        this.latitude = latLng.lat;
     }
 
     public void setDenomination(String denomination) {
@@ -77,6 +73,11 @@ public class Lieu implements Serializable {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+    
+    public void setCoordonnees(LatLng latLng) {
+        this.longitude = latLng.lng;
+        this.latitude = latLng.lat;
     }
 
     @Override
