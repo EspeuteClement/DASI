@@ -2,6 +2,7 @@ package modele;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,9 +31,12 @@ public abstract class Evenement implements Serializable {
     public Evenement() {
     }
 
-    public Evenement(String denomination, Date date, Lieu lieu, Activite activite, List<Demande> demandes) {
+    public Evenement(String denomination, Date date, Lieu lieu, Activite activite) {
         this.denomination = denomination;
         this.dateEvenement = date;
+        this.lieu = lieu;
+        this.activite = activite;
+        this.demandes = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -57,6 +61,6 @@ public abstract class Evenement implements Serializable {
 
     @Override
     public String toString() {
-        return "Evenement{" + "id=" + id + ", denomination=" + denomination + ", Date=" + dateEvenement.toString() + '}';
+        return "Evenement{" + "id=" + id + ", denomination=" + denomination + ", Date=" + dateEvenement.toString() + lieu.toString() + '}';
     }
 }

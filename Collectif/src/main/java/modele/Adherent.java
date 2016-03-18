@@ -2,6 +2,7 @@ package modele;
 
 import com.google.maps.model.LatLng;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,8 +20,8 @@ public class Adherent implements Serializable {
     private String nom;
     private String prenom;
     @Column(unique=true)
-    private String mail;
     private String adresse;
+    private String mail;
     private Double longitude;
     private Double latitude;
     private String mdp;
@@ -34,17 +35,17 @@ public class Adherent implements Serializable {
     public Adherent() {
     }
 
-    public Adherent(String nom, String prenom, String adresse, String mail, String mdp, boolean estResponsable) {
+    public Adherent(String nom, String prenom, String adresse, String mail, String mdp) {
         this.nom = nom;
         this.prenom = prenom;
-        this.mail = mail;
         this.adresse = adresse;
+        this.mail = mail;
         this.longitude = 0.0;
         this.latitude = 0.0;
         this.mdp = mdp;
         
-        demandes = null;
-        evenements = null;
+        demandes = new ArrayList<>();
+        evenements = new ArrayList<>();
     }
 
     public Long getId() {
@@ -122,9 +123,17 @@ public class Adherent implements Serializable {
 
     @Override
     public String toString() {
-        return "Adherent{" + "id=" + id + ", nom=" + nom + ", prenom=" +
+        String output = "Adherent{" + "id=" + id + ", nom=" + nom + ", prenom=" +
                 prenom + ", mail=" + mail + ", adresse=" + adresse +
                 ", longitude=" + longitude + ", latitude=" + latitude + '}' +
-                "\r\n" + demandes;
+                "\r\nDemandes de l'adhérent :\r\n";
+        for(Demande demande : demandes) {
+            output += demande.toString() + "\r\n";
+        }
+        output += "Evenements de l'adhérent :\r\n";
+        for(Evenement evenement : evenements) {
+            output += evenements.toString() + "\r\n";
+        }
+        return output;
     }
 }
