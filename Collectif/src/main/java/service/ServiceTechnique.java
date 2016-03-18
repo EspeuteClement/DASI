@@ -40,35 +40,28 @@ public class ServiceTechnique {
     static public void mailAdherentInscription(Adherent pAdherent, boolean inscriptionReussi) {
         System.out.println("Expediteur : collectif@collectif.org");
         System.out.println("Pour : " + pAdherent.getMail());
-        if(inscriptionReussi)
-        {
+        if (inscriptionReussi) {
             System.out.println("Sujet : Bienvenue chez Collect'IF");
             System.out.println("Corps :");
             System.out.println("Bonjour " + pAdherent.getPrenom() + ",");
             System.out.println("Nous vous confirmons votre adhésion à l'association COLLECT'IF. Votre numéro d'adhérent est : " + pAdherent.getId().toString());
-        }
-        else
-        {
+        } else {
             System.out.println("Sujet : Problème d'inscription chez Collect'IF");
             System.out.println("Corps :");
             System.out.println("Bonjour " + pAdherent.getPrenom() + ",");
             System.out.println("Votre adhésion à l'association COLLECT'IF a malencontreusement échoué... Merci de recommencer ultérieurement.");
         }
     }
-    
-    static public void mailResponsableInscription(Adherent pAdherent, boolean inscriptionReussi)
-    {
+
+    static public void mailResponsableInscription(Adherent pAdherent, boolean inscriptionReussi) {
         System.out.println("Expediteur : collectif@collectif.org");
         System.out.println("Pour : admin@collectif.org");
-        if(inscriptionReussi)
-        {
+        if (inscriptionReussi) {
             System.out.println("Sujet : Inscription chez Collect'IF");
             System.out.println("Corps :");
             System.out.println("Bonjour Admin,");
-            System.out.println("Nous vous confirmons l'adhésion à l'association COLLECT'IF de " + pAdherent.getNom()  + ". Son numéro d'adhérent est : " + pAdherent.getId().toString());
-        }
-        else
-        {
+            System.out.println("Nous vous confirmons l'adhésion à l'association COLLECT'IF de " + pAdherent.getNom() + ". Son numéro d'adhérent est : " + pAdherent.getId().toString());
+        } else {
             System.out.println("Sujet : Problème d'inscription chez Collect'IF");
             System.out.println("Corps :");
             System.out.println("Bonjour Admin,");
