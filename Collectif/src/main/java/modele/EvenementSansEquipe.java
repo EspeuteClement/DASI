@@ -1,5 +1,6 @@
 package modele;
 
+import java.sql.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -8,6 +9,14 @@ import javax.persistence.ManyToMany;
 public class EvenementSansEquipe extends Evenement{
     @ManyToMany
     private List<Adherent> participants;
+    
+    public EvenementSansEquipe() {
+    }
+    
+    public EvenementSansEquipe(Date date, Activite activite, List<Demande> demandes, List<Adherent> participants) {
+        super(date, activite, demandes);
+        this.participants = participants;
+    }
     
     public List<Adherent> getParticipants() {
         return participants;

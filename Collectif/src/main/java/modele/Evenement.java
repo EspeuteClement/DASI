@@ -32,7 +32,7 @@ public abstract class Evenement implements Serializable {
     public Evenement() {
     }
 
-    public Evenement(Date date, Lieu lieu, Activite activite, List<Demande> demandes) {
+    public Evenement(Date date, Activite activite, List<Demande> demandes) {
         this.dateEvenement = date;
         this.lieu = new Lieu();
         this.activite = activite;
