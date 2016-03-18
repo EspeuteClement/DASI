@@ -6,6 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Modèle pour l'objet métier Activite.
+ * @author eyjarson
+ */
 @Entity
 public class Activite implements Serializable {
     @Id
@@ -14,24 +18,45 @@ public class Activite implements Serializable {
     private String denomination;
     private Boolean parEquipe;
     private Integer nbParticipants;
-
+    
+    /**
+     * Constructeur vide (obligatoire).
+     */
     public Activite() {
     }
-
+    
+    /**
+     * Constructeur par défaut.
+     * @param denomination Le nom de l'activité.
+     * @param parEquipe True si l'activité se fait par équipe, false sinon.
+     * @param nbParticipants Nombre de participants exact requis pour l'activité.
+     */
     public Activite(String denomination, Boolean parEquipe, Integer nbParticipants) {
         this.denomination = denomination;
         this.parEquipe = parEquipe;
         this.nbParticipants = nbParticipants;
     }
-
+    
+    /**
+     * Getter pour l'ID.
+     * @return L'ID de l'activité.
+     */
     public Integer getId() {
         return id;
     }
-
+    
+    /**
+     * Getter pour le nom de l'activité.
+     * @return Le nom de l'activité.
+     */
     public String getDenomination() {
         return denomination;
     }
-
+    
+    /**
+     * Getter pour le type d'activité (avec ou sans équipe).
+     * @return True si l'activité se fait par équipe, false sinon.
+     */
     public Boolean isParEquipe() {
         return parEquipe;
     }

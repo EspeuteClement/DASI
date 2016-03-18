@@ -21,6 +21,9 @@ public class Demande implements Serializable {
     
     @ManyToOne
     private Adherent demandeur;
+    
+    @ManyToOne
+    private Evenement evenement;
 
     public Demande() {
     }
@@ -30,6 +33,7 @@ public class Demande implements Serializable {
         this.dateEvenement = dateEvenement;
         this.activite = activite;
         this.demandeur = demandeur;
+        this.evenement = null;
     }
 
     public Integer getId() {
@@ -52,6 +56,10 @@ public class Demande implements Serializable {
         return demandeur;
     }
     
+    public Evenement getEvenement() {
+        return evenement;
+    }
+    
     public void setDateDemande(Date dateDemande) {
         this.dateDemande = dateDemande;
     }
@@ -66,6 +74,10 @@ public class Demande implements Serializable {
     
     public void setDemandeur(Adherent demandeur) {
         this.demandeur = demandeur;
+    }
+    
+    public void setEvenement(Evenement evenement) {
+        this.evenement = evenement;
     }
 
     @Override
