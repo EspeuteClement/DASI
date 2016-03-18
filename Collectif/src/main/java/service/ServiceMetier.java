@@ -6,6 +6,7 @@ import modele.Adherent;
 import dao.AdherentDao;
 import dao.DemandeDao;
 import dao.JpaUtil;
+import dao.LieuDao;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.persistence.RollbackException;
 import modele.Activite;
 import modele.Demande;
 import modele.Evenement;
+import modele.Lieu;
 
 public class ServiceMetier {
 
@@ -199,6 +201,26 @@ public class ServiceMetier {
         
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
+    }
+    
+    static public List<Lieu> recupererLieu()
+    {
+        LieuDao lieuDao = new LieuDao();
+        List<Lieu> lieux = null;
+        
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        
+        try {
+            lieux=lieuDao.findAll();
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
+        
+        return lieux;
     }
 
 }
