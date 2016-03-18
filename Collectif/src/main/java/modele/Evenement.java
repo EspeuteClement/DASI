@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Evenement implements Serializable {
+public abstract class Evenement implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -33,7 +33,6 @@ public class Evenement implements Serializable {
     public Evenement(String denomination, Date date, Lieu lieu, Activite activite, List<Demande> demandes) {
         this.denomination = denomination;
         this.dateEvenement = date;
-        
     }
 
     public Integer getId() {
@@ -58,7 +57,6 @@ public class Evenement implements Serializable {
 
     @Override
     public String toString() {
-        return "Activite{" + "id=" + id + ", denomination=" + denomination + ", Date=" + dateEvenement.toString() + '}';
+        return "Evenement{" + "id=" + id + ", denomination=" + denomination + ", Date=" + dateEvenement.toString() + '}';
     }
-       
 }
