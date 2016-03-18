@@ -17,6 +17,7 @@ import javax.persistence.RollbackException;
 import modele.Activite;
 import modele.Demande;
 import modele.Evenement;
+import modele.EvenementParEquipe;
 import modele.Lieu;
 
 public class ServiceMetier {
@@ -176,34 +177,43 @@ public class ServiceMetier {
         DemandeDao demandeDao = new DemandeDao();
         List<Demande> demandes = null;
         List<Demande> evenementDemandes = new ArrayList();
+        List<Adherent> participants = new ArrayList();
         
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
         
         try {
             demandes = demandeDao.findAll();
+        
+            for (int i = 0 ; i<demandes.size() ; i ++)
+            {
+                if(demandes.get(i).getActivite().equals(pDemande.getActivite()) && demandes.get(i).getDateEvenement().equals(pDemande.getDateEvenement()))
+                {
+                    evenementDemandes.add(demandes.get(i));
+                    participants.add(demandes.get(i).getDemandeur());
+                }
+            }
+
+            if(evenementDemandes.size() >= pDemande.getActivite().getNbParticipants())
+            {
+                if(pDemande.getActivite().isParEquipe())
+                {
+                    
+                }
+                else
+                {
+                    
+                }
+            }
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        for (int i = 0 ; i<demandes.size() ; i ++)
-        {
-            if(demandes.get(i).getActivite().equals(pDemande.getActivite()) && demandes.get(i).getDateEvenement().equals(pDemande.getDateEvenement()))
-            {
-                evenementDemandes.add(demandes.get(i));
-            }
-        }
-        
-        if(evenementDemandes.size() >= pDemande.getActivite().getNbParticipants())
-        {
-            //Créer Evenement
         }
         
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
     }
     
-    static public List<Lieu> recupererLieu()
+    static public List<Lieu> recupererLieux()
     {
         LieuDao lieuDao = new LieuDao();
         List<Lieu> lieux = null;
