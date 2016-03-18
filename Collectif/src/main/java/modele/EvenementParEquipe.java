@@ -1,5 +1,7 @@
 package modele;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -11,6 +13,15 @@ public class EvenementParEquipe extends Evenement {
     
     @ManyToMany
     private List<Adherent> equipeB;
+    
+    public EvenementParEquipe() {
+    }
+    
+    public EvenementParEquipe(Date date, Activite activite, List<Demande> demandes) {
+        super(date, activite, demandes);
+        equipeA = new ArrayList<>();
+        equipeB = new ArrayList<>();
+    }
     
     public List<Adherent> getEquipeA() {
         return equipeA;
