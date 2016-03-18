@@ -7,13 +7,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Demande implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Temporal(TemporalType.DATE)
     private Date dateDemande;
+    @Temporal(TemporalType.DATE)
     private Date dateEvenement;
     
     @ManyToOne

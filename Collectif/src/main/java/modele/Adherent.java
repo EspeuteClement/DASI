@@ -3,6 +3,7 @@ package modele;
 import com.google.maps.model.LatLng;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,7 @@ public class Adherent implements Serializable {
     private Long id;
     private String nom;
     private String prenom;
+    @Column(unique=true)
     private String mail;
     private String adresse;
     private Double longitude;
@@ -37,7 +39,12 @@ public class Adherent implements Serializable {
         this.prenom = prenom;
         this.mail = mail;
         this.adresse = adresse;
+        this.longitude = 0.0;
+        this.latitude = 0.0;
         this.mdp = mdp;
+        
+        demandes = null;
+        evenements = null;
     }
 
     public Long getId() {
@@ -71,6 +78,14 @@ public class Adherent implements Serializable {
     public String getMdp () {
         return mdp;
     }
+    
+    public List<Demande> getDemandes() {
+        return demandes;
+    }
+    
+    public List <Evenement> getEvenements() {
+        return evenements;
+    }
 
     public void setNom(String nom) {
         this.nom = nom;
@@ -96,9 +111,20 @@ public class Adherent implements Serializable {
     public void setMdp (String mdp) {
         this.mdp = mdp;
     }
+    
+    public void setDemandes(List<Demande> demandes) {
+        this.demandes = demandes;
+    }
+    
+    public void setEvenements(List<Evenement> evenements) {
+        this.evenements = evenements;
+    }
 
     @Override
     public String toString() {
-        return "Adherent{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", mail=" + mail + ", adresse=" + adresse + ", longitude=" + longitude + ", latitude=" + latitude + '}';
+        return "Adherent{" + "id=" + id + ", nom=" + nom + ", prenom=" +
+                prenom + ", mail=" + mail + ", adresse=" + adresse +
+                ", longitude=" + longitude + ", latitude=" + latitude + '}' +
+                "\r\n" + demandes;
     }
 }
