@@ -151,8 +151,8 @@ public class ServiceMetier {
         } else {
 
             boolean dejaExistante = false;
-            for (int i = 0; i < demandeur.getDemandes().size(); i++) {
-                if (demandeur.getDemandes().get(i).getActivite().equals(activite) && demandeur.getDemandes().get(i).getDateEvenement().equals(date)) {
+            for (Demande demande : demandeur.getDemandes()) {
+                if (demande.getActivite().equals(activite) && demande.getDateEvenement().equals(date)) {
                     dejaExistante = true;
                 }
             }
@@ -196,11 +196,11 @@ public class ServiceMetier {
         try {
             demandes = demandeDao.findAll();
 
-            for (int i = 0; i < demandes.size(); i++) {
-                if (demandes.get(i).getActivite().equals(pDemande.getActivite()) && demandes.get(i).getDateEvenement().equals(pDemande.getDateEvenement()));
+            for (Demande demande : demandes) {
+                if (demande.getActivite().equals(pDemande.getActivite()) && demande.getDateEvenement().equals(pDemande.getDateEvenement()));
                 {
-                    evenementDemandes.add(demandes.get(i));
-                    participants.add(demandes.get(i).getDemandeur());
+                    evenementDemandes.add(demande);
+                    participants.add(demande.getDemandeur());
                 }
             }
 
@@ -285,24 +285,72 @@ public class ServiceMetier {
         EvenementDao evenementDao = new EvenementDao();
         
         boolean succes = true;
+        Evenement evenement = null;
         
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
         
         try {
-            Evenement evenement = evenementDao.findById(idEvenement);
+            evenement = evenementDao.findById(idEvenement);
             Lieu lieuAffecte = lieuDao.findById(idLieu);
             evenement.setLieu(lieuAffecte);
             evenement = evenementDao.update(evenement);
+            
+            JpaUtil.validerTransaction();
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
             succes=false;
         }
         
+        JpaUtil.fermerEntityManager();
+        
         if(succes)
         {
-            //Envoi mail
+            if(evenement instanceof EvenementParEquipe)
+            {
+                EvenementParEquipe evenementParEquipe = (EvenementParEquipe) evenement;
+                
+                for(Adherent participantEquipeA : evenementParEquipe.getEquipeA().getParticipants())
+                {
+                    ServiceTechnique.mailParticipantEvenement(participantEquipeA, evenementParEquipe);
+                }
+                
+                for(Adherent participantEquipeB : evenementParEquipe.getEquipeB().getParticipants())
+                {
+                    ServiceTechnique.mailParticipantEvenement(participantEquipeB, evenementParEquipe);
+                }
+            }
+            else
+            {
+                EvenementSansEquipe evenementSansEquipe = (EvenementSansEquipe) evenement;
+                
+                for(Adherent participant : evenementSansEquipe.getParticipants())
+                {
+                    ServiceTechnique.mailParticipantEvenement(participant, evenementSansEquipe);
+                }
+            }
         }
+    }
+    
+    static public Evenement recupererUnEvenement(long idEvenement)
+    {
+        EvenementDao evenementDao = new EvenementDao();
+        
+        Evenement evenement = null;
+        
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        
+        try {
+            evenement = evenementDao.findById(idEvenement);
+            JpaUtil.validerTransaction();
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        JpaUtil.fermerEntityManager();
+        
+        return evenement;
     }
 
 }
