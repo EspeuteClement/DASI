@@ -19,8 +19,8 @@ public class Adherent implements Serializable {
     private Long id;
     private String nom;
     private String prenom;
-    @Column(unique=true)
     private String adresse;
+    @Column(unique=true)
     private String mail;
     private Double longitude;
     private Double latitude;
