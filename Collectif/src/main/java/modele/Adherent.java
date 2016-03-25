@@ -120,6 +120,10 @@ public class Adherent implements Serializable {
     public void setEvenements(List<Evenement> evenements) {
         this.evenements = evenements;
     }
+    
+    public String getPrenomNom() {
+        return prenom.substring(0, 1).toUpperCase() + prenom.substring(1) + " " + nom.toUpperCase();
+    }
 
     @Override
     public String toString() {
