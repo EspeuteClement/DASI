@@ -77,7 +77,7 @@ public class ServiceMetier {
             Adherent adherent;
             adherent = listeAdherent.get(i);
 
-            if (adherent.getMdp().equals(mdp)) {
+            if (adherent.getId().equals(mdp)) {
                 return adherent;
             }
         }

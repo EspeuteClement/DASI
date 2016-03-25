@@ -1,13 +1,7 @@
 package service;
 
 import com.google.maps.model.LatLng;
-import dao.AdherentDao;
-import dao.JpaUtil;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import modele.Adherent;
-import modele.Demande;
 import modele.Evenement;
 import modele.EvenementParEquipe;
 import modele.EvenementSansEquipe;
