@@ -212,12 +212,12 @@ public class ServiceMetier {
                         
                         if(i%2 == 0)
                         {
-                            nouvelEvenement.getEquipeA().add(participants.get(nombreAleatoire));
+                            nouvelEvenement.getEquipeA().getParticipants().add(participants.get(nombreAleatoire));
                             participants.remove(nombreAleatoire);
                         }
                         else
                         {
-                            nouvelEvenement.getEquipeB().add(participants.get(nombreAleatoire));
+                            nouvelEvenement.getEquipeB().getParticipants().add(participants.get(nombreAleatoire));
                             participants.remove(nombreAleatoire);
                         }
                     }

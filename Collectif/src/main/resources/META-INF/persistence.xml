@@ -9,6 +9,7 @@
     <class>modele.Evenement</class>
     <class>modele.EvenementParEquipe</class>
     <class>modele.EvenementSansEquipe</class>
+    <class>modele.Equipe</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Collectoif_DB"/>
       <property name="javax.persistence.jdbc.user" value="theadmin"/>
