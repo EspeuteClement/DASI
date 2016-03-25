@@ -25,7 +25,7 @@ import modele.Lieu;
 
 public class ServiceMetier {
     
-    static public boolean inscrireAdherent(String nom, String prenom, String adresse, String mail) {
+    static public Adherent inscrireAdherent(String nom, String prenom, String adresse, String mail) {
         AdherentDao adherentDao = new AdherentDao();
         Adherent nouvelAdherent = new Adherent(nom, prenom, adresse, mail);
         LatLng geoloc = ServiceTechnique.recuperationGeoloc(adresse);
@@ -54,7 +54,14 @@ public class ServiceMetier {
         ServiceTechnique.mailAdherentInscription(nouvelAdherent, succes);
         ServiceTechnique.mailResponsableInscription(nouvelAdherent, succes);
 
-        return succes;
+        if(succes)
+        {
+            return nouvelAdherent;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     static public Adherent connexionAdherent(String mail, long idAdherent) {

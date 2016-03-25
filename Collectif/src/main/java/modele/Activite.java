@@ -10,7 +10,7 @@ import javax.persistence.Id;
 public class Activite implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private long id;
     private String denomination;
     private Boolean parEquipe;
     private Integer nbParticipants;
@@ -24,7 +24,7 @@ public class Activite implements Serializable {
         this.nbParticipants = nbParticipants;
     }
     
-    public Integer getId() {
+    public long getId() {
         return id;
     }
     

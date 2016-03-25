@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import modele.Activite;
+import modele.Adherent;
 import modele.Demande;
 import modele.Evenement;
 import modele.EvenementParEquipe;
@@ -14,7 +15,7 @@ import util.Saisie;
 public class Main {
 
     public static void main(String[] args) {
-        
+
         while (true) {
             System.out.println("COLLECT'IF");
             System.out.println("1 - Lister les activités");
@@ -37,30 +38,24 @@ public class Main {
             switch (choix) {
                 case 1:
                     List<Activite> activites = ServiceMetier.recupererActivites();
-                    for(Activite activite : activites)
-                    {
+                    for (Activite activite : activites) {
                         System.out.println(activite.toString());
                     }
                     break;
                 case 2:
-                    int idAdherent = Saisie.lireInteger("Entrez l'id de l'utilisateur");
+                    long idAdherent = (long) Saisie.lireInteger("Entrez l'id de l'utilisateur");
                     List<Demande> demandes = ServiceMetier.recupererAdherentDemandes(idAdherent);
-                    for(Demande demande : demandes)
-                    {
+                    for (Demande demande : demandes) {
                         System.out.println(demande.toString());
                     }
                     break;
                 case 3:
                     List<Evenement> evenements = ServiceMetier.recupererEvenement();
-                    for(Evenement evenement : evenements)
-                    {
-                        if(evenement instanceof EvenementParEquipe)
-                        {
+                    for (Evenement evenement : evenements) {
+                        if (evenement instanceof EvenementParEquipe) {
                             EvenementParEquipe evenementAE = (EvenementParEquipe) evenement;
                             System.out.println(evenementAE.toString());
-                        }
-                        else
-                        {
+                        } else {
                             EvenementSansEquipe evenementSE = (EvenementSansEquipe) evenement;
                             System.out.println(evenementSE.toString());
                         }
@@ -69,12 +64,32 @@ public class Main {
                 case 4:
                     String nom = Saisie.lireChaine("Saisissez un nom.");
                     String prenom = Saisie.lireChaine("Saisissez un prénom");
-                    ServiceMetier.inscrireAdherent(nom, prenom, adresse, mail, mdp);
-                    
+                    String adresse = Saisie.lireChaine("Saisissez une adresse");
+                    String mail = Saisie.lireChaine("Saisissez un mail");
+                    Adherent nouvelAdherent = ServiceMetier.inscrireAdherent(nom, prenom, adresse, mail);
+                    if (nouvelAdherent != null) {
+                        System.out.println(nouvelAdherent.toString());
+                    } else {
+                        System.out.println("Echec de la création d'un adhérent.");
+                    }
+
+                    break;
+                case 5:
+                    idAdherent = (long) Saisie.lireInteger("Saisissez l'id d'un adhérent.");
+                    if (ServiceMetier.posterDemande(idAdherent, 29, new Date(27, 04, 2016))) {
+                        demandes = ServiceMetier.recupererAdherentDemandes(idAdherent);
+                        for (Demande demande : demandes) {
+                            System.out.println(demande.toString());
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("Erreur de création de demande.");
+                    }
+
                     break;
                 default:
                     break;
-
             }
 
             if (choix == 6) {
