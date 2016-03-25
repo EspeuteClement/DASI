@@ -79,7 +79,11 @@ public class Lieu implements Serializable {
         this.longitude = latLng.lng;
         this.latitude = latLng.lat;
     }
-
+    
+    public String toMailString() {
+        return denomination + "," + adresse;
+    }
+    
     @Override
     public String toString() {
         return "Lieu{" + "id=" + id + ", denomination=" + denomination + ", description=" + description + ", adresse=" + adresse + ", longitude=" + longitude + ", latitude=" + latitude + '}';
