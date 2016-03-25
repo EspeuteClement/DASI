@@ -212,13 +212,16 @@ public class ServiceMetier {
 
                     for (int i = 0; i < pDemande.getActivite().getNbParticipants(); i++) {
                         Random rand = new Random();
-                        int nombreAleatoire = rand.nextInt(pDemande.getActivite().getNbParticipants() - i);
-
-                        if (i % 2 == 0) {
-                            nouvelEvenement.getEquipeA().add(participants.get(nombreAleatoire));
+                        int nombreAleatoire = rand.nextInt(pDemande.getActivite().getNbParticipants()-i);
+                        
+                        if(i%2 == 0)
+                        {
+                            nouvelEvenement.getEquipeA().getParticipants().add(participants.get(nombreAleatoire));
                             participants.remove(nombreAleatoire);
-                        } else {
-                            nouvelEvenement.getEquipeB().add(participants.get(nombreAleatoire));
+                        }
+                        else
+                        {
+                            nouvelEvenement.getEquipeB().getParticipants().add(participants.get(nombreAleatoire));
                             participants.remove(nombreAleatoire);
                         }
                     }

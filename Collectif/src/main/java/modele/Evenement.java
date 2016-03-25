@@ -34,7 +34,7 @@ public abstract class Evenement implements Serializable {
 
     public Evenement(Date date, Activite activite, List<Demande> demandes) {
         this.dateEvenement = date;
-        this.lieu = new Lieu();
+        this.lieu = null;
         this.activite = activite;
         this.demandes = demandes;
     }
@@ -47,8 +47,16 @@ public abstract class Evenement implements Serializable {
         return dateEvenement;
     }
     
+    public Lieu getLieu() {
+        return lieu;
+    }
+    
     public void setDate(Date date) {
         this.dateEvenement = date;
+    }
+    
+    public void setLieu(Lieu lieu) {
+        this.lieu = lieu;
     }
 
     @Override
