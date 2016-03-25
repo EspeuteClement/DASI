@@ -43,7 +43,7 @@ public class Main {
                     }
                     break;
                 case 2:
-                    long idAdherent = Saisie.lireInteger("Entrez l'id de l'utilisateur");
+                    long idAdherent = (long) Saisie.lireInteger("Entrez l'id de l'utilisateur");
                     List<Demande> demandes = ServiceMetier.recupererAdherentDemandes(idAdherent);
                     for (Demande demande : demandes) {
                         System.out.println(demande.toString());
@@ -75,7 +75,7 @@ public class Main {
 
                     break;
                 case 5:
-                    idAdherent = Saisie.lireInteger("Saisissez l'id d'un adhérent.");
+                    idAdherent = (long) Saisie.lireInteger("Saisissez l'id d'un adhérent.");
                     if (ServiceMetier.posterDemande(idAdherent, 29, new Date(27, 04, 2016))) {
                         demandes = ServiceMetier.recupererAdherentDemandes(idAdherent);
                         for (Demande demande : demandes) {
