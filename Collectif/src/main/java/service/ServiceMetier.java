@@ -331,5 +331,26 @@ public class ServiceMetier {
             }
         }
     }
+    
+    static public Evenement recupererUnEvenement(long idEvenement)
+    {
+        EvenementDao evenementDao = new EvenementDao();
+        
+        Evenement evenement = null;
+        
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        
+        try {
+            evenement = evenementDao.findById(idEvenement);
+            JpaUtil.validerTransaction();
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        JpaUtil.fermerEntityManager();
+        
+        return evenement;
+    }
 
 }
