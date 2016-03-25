@@ -9,12 +9,22 @@ import java.util.logging.Logger;
 import modele.Adherent;
 import modele.Demande;
 import modele.Evenement;
+import modele.Lieu;
 import util.GeoTest;
 
 public class ServiceTechnique {
 
     static public LatLng recuperationGeoloc(String adresse) {
         return GeoTest.getLatLng(adresse);
+    }
+    
+    static public double Distance(Adherent pAdherent, Lieu pLieu)
+    {
+        double distance;
+        
+        
+        
+        return distance;
     }
 
     static public void mailAdherentInscription(Adherent pAdherent, boolean inscriptionReussi) {
@@ -56,6 +66,18 @@ public class ServiceTechnique {
             System.out.println("Sujet : Nouvel Evènement");
             System.out.println("Corps :");
             System.out.println("Bonjour " + pAdherent.getPrenom() + ",");
-            System.out.println("Comme vous l'aviez souhaité, COLLECT'IF organise un évènement de " + pEvenement);
+            System.out.println();
+            System.out.println("Comme vous l'aviez souhaité, COLLECT'IF organise un évènement de " + pEvenement.getActivite().getDenomination() + " le " + pEvenement.getDate().toString() + ".");
+            System.out.println("Vous trouverez ci-dessous les détails de cet évènement.");
+            System.out.println();
+            System.out.println("Associativement vôtre,");
+            System.out.println();
+            System.out.println("Le Responsable de l'Association");
+            System.out.println();
+            System.out.println();
+            System.out.println("Evènement : " + pEvenement.getActivite().getDenomination());
+            System.out.println("Date : " + pEvenement.getDate().toString());
+            System.out.println("Lieu : " + pEvenement.getLieu().toMailString());
+            
     }
 }
