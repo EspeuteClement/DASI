@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import modele.Adherent;
 import modele.Demande;
 import modele.Evenement;
+import modele.EvenementParEquipe;
+import modele.EvenementSansEquipe;
 import modele.Lieu;
 import util.GeoTest;
 
@@ -22,7 +24,7 @@ public class ServiceTechnique {
     {
         double distance;
         
-        
+        distance = GeoTest.getFlightDistanceInKm(new LatLng(pAdherent.getLatitude(),pAdherent.getLongitude()), new LatLng(pLieu.getLatitude(),pLieu.getLongitude()));
         
         return distance;
     }
@@ -78,6 +80,58 @@ public class ServiceTechnique {
             System.out.println("Evènement : " + pEvenement.getActivite().getDenomination());
             System.out.println("Date : " + pEvenement.getDate().toString());
             System.out.println("Lieu : " + pEvenement.getLieu().toMailString());
+            System.out.println("(à " + ServiceTechnique.Distance(pAdherent, pEvenement.getLieu()) + " km de chez vous)");
+            System.out.println();
+            System.out.println("Vous jouerez avec :");
+            if(pEvenement instanceof EvenementParEquipe)
+            {
+                EvenementParEquipe evenementParEquipe = (EvenementParEquipe) pEvenement;
+                if(evenementParEquipe.getEquipeA().getParticipants().contains(pAdherent))
+                {
+                    for(Adherent participant : evenementParEquipe.getEquipeA().getParticipants())
+                    {
+                        if(!participant.equals(pAdherent))
+                        {
+                            System.out.println(participant.getPrenomNom());
+                        }
+                        
+                    }
+                    
+                    System.out.println("Contre :");
+                    
+                    for(Adherent participant : evenementParEquipe.getEquipeB().getParticipants())
+                    {
+                            System.out.println(participant.getPrenomNom());               
+                    }
+                }
+                else
+                {
+                    for(Adherent participant : evenementParEquipe.getEquipeB().getParticipants())
+                    {
+                        if(!participant.equals(pAdherent))
+                        {
+                            System.out.println(participant.getPrenomNom());
+                        }
+                        
+                    }
+                    
+                    System.out.println("Contre :");
+                    
+                    for(Adherent participant : evenementParEquipe.getEquipeA().getParticipants())
+                    {
+                            System.out.println(participant.getPrenomNom());               
+                    }
+                }
+            }
+            else
+            {
+                EvenementSansEquipe evenementSansEquipe = (EvenementSansEquipe) pEvenement;
+                
+                for(Adherent participant : evenementSansEquipe.getParticipants())
+                {
+                    System.out.println(participant.getPrenomNom());
+                }
+            }
             
     }
 }
