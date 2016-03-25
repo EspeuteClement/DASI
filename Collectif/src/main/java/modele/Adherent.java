@@ -24,7 +24,6 @@ public class Adherent implements Serializable {
     private String mail;
     private Double longitude;
     private Double latitude;
-    private String mdp;
     
     @OneToMany
     private List<Demande> demandes;
@@ -42,7 +41,6 @@ public class Adherent implements Serializable {
         this.mail = mail;
         this.longitude = 0.0;
         this.latitude = 0.0;
-        this.mdp = mdp;
         
         demandes = new ArrayList<>();
         evenements = new ArrayList<>();
@@ -76,10 +74,6 @@ public class Adherent implements Serializable {
         return latitude;
     }
     
-    public String getMdp () {
-        return mdp;
-    }
-    
     public List<Demande> getDemandes() {
         return demandes;
     }
@@ -107,10 +101,6 @@ public class Adherent implements Serializable {
     public void setCoordonnees(LatLng latLng) {
         this.longitude = latLng.lng;
         this.latitude = latLng.lat;
-    }
-    
-    public void setMdp (String mdp) {
-        this.mdp = mdp;
     }
     
     public void setDemandes(List<Demande> demandes) {
