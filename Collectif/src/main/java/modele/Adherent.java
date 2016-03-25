@@ -34,7 +34,7 @@ public class Adherent implements Serializable {
     public Adherent() {
     }
 
-    public Adherent(String nom, String prenom, String adresse, String mail, String mdp) {
+    public Adherent(String nom, String prenom, String adresse, String mail) {
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
