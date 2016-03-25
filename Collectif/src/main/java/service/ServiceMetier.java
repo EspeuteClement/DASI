@@ -292,8 +292,16 @@ public class ServiceMetier {
         try {
             Evenement evenement = evenementDao.findById(idEvenement);
             Lieu lieuAffecte = lieuDao.findById(idLieu);
+            evenement.setLieu(lieuAffecte);
+            evenement = evenementDao.update(evenement);
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+            succes=false;
+        }
+        
+        if(succes)
+        {
+            //Envoi mail
         }
     }
 

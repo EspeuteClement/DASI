@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.Adherent;
 import modele.Demande;
+import modele.Evenement;
 import util.GeoTest;
 
 public class ServiceTechnique {
@@ -46,5 +47,15 @@ public class ServiceTechnique {
             System.out.println("Bonjour Admin,");
             System.out.println("Une adhésion a malencontreusement échoué.");
         }
+    }
+    
+    static public void mailParticipantEvenement(Adherent pAdherent, Evenement pEvenement)
+    {
+        System.out.println("Expediteur : collectif@collectif.org");
+        System.out.println("Pour : " + pAdherent.getMail());
+            System.out.println("Sujet : Nouvel Evènement");
+            System.out.println("Corps :");
+            System.out.println("Bonjour " + pAdherent.getPrenom() + ",");
+            System.out.println("Comme vous l'aviez souhaité, COLLECT'IF organise un évènement de " + pEvenement);
     }
 }
