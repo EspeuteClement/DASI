@@ -278,5 +278,23 @@ public class ServiceMetier {
 
         return evenements;
     }
+    
+    static public void affecterLieuEvenement(long idEvenement, long idLieu)
+    {
+        LieuDao lieuDao = new LieuDao();
+        EvenementDao evenementDao = new EvenementDao();
+        
+        boolean succes = true;
+        
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+        
+        try {
+            Evenement evenement = evenementDao.findById(idEvenement);
+            Lieu lieuAffecte = lieuDao.findById(idLieu);
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
