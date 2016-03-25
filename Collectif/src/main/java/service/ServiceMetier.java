@@ -27,7 +27,7 @@ public class ServiceMetier {
 
     static public boolean inscrireAdherent(String nom, String prenom, String adresse, String mail, String mdp) {
         AdherentDao adherentDao = new AdherentDao();
-        Adherent nouvelAdherent = new Adherent(nom,prenom,adresse,mail,mdp);
+        Adherent nouvelAdherent = new Adherent(nom, prenom, adresse, mail, mdp);
         LatLng geoloc = ServiceTechnique.recuperationGeoloc(adresse);
         boolean succes = true;
 
@@ -84,23 +84,22 @@ public class ServiceMetier {
 
         return null;
     }
-    
-    static public List<Demande> recupererAdherentDemandes(long idAdherent)
-    {
+
+    static public List<Demande> recupererAdherentDemandes(long idAdherent) {
         AdherentDao adherentDao = new AdherentDao();
         Adherent adherent = null;
         List<Demande> adherentDemandes = null;
-        
+
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
-        
+
         try {
-            adherent=adherentDao.findById(idAdherent);
-            adherentDemandes=adherent.getDemandes();
+            adherent = adherentDao.findById(idAdherent);
+            adherentDemandes = adherent.getDemandes();
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return adherentDemandes;
     }
 
@@ -150,19 +149,29 @@ public class ServiceMetier {
         if (demandeur == null || activite == null) {
             succes = false;
         } else {
-            Demande nouvelDemande = new Demande(date, Date.valueOf(LocalDate.now()), activite, demandeur);
 
-            try {
-                demandeDao.create(nouvelDemande);
-                demandeur.getDemandes().add(nouvelDemande);
-                adherentDao.update(demandeur);
-            } catch (Throwable ex) {
-                Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+            boolean dejaExistante = false;
+            for (int i = 0; i < demandeur.getDemandes().size(); i++) {
+                if (demandeur.getDemandes().get(i).getActivite().equals(activite) && demandeur.getDemandes().get(i).getDateEvenement().equals(date)) {
+                    dejaExistante = true;
+                }
             }
 
-            /*if (succes) {
-                ServiceMetier.creerEvenement(nouvelDemande);
-            }*/
+            if (!dejaExistante) {
+                Demande nouvelDemande = new Demande(date, Date.valueOf(LocalDate.now()), activite, demandeur);
+
+                try {
+                    demandeDao.create(nouvelDemande);
+                    demandeur.getDemandes().add(nouvelDemande);
+                    adherentDao.update(demandeur);
+                } catch (Throwable ex) {
+                    Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                if (succes) {
+                    ServiceMetier.creerEvenement(nouvelDemande);
+                }
+            }
         }
 
         try {
@@ -174,39 +183,34 @@ public class ServiceMetier {
 
         return succes;
     }
-    
-    static public void creerEvenement(Demande pDemande)
-    {
+
+    static public void creerEvenement(Demande pDemande) {
         DemandeDao demandeDao = new DemandeDao();
         List<Demande> demandes = null;
         List<Demande> evenementDemandes = new ArrayList();
         List<Adherent> participants = new ArrayList();
-        
+
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
-        
+
         try {
             demandes = demandeDao.findAll();
-        
-            for (int i = 0 ; i<demandes.size() ; i ++)
-            {
-                if(demandes.get(i).getActivite().equals(pDemande.getActivite()) && demandes.get(i).getDateEvenement().equals(pDemande.getDateEvenement()));
+
+            for (int i = 0; i < demandes.size(); i++) {
+                if (demandes.get(i).getActivite().equals(pDemande.getActivite()) && demandes.get(i).getDateEvenement().equals(pDemande.getDateEvenement()));
                 {
                     evenementDemandes.add(demandes.get(i));
                     participants.add(demandes.get(i).getDemandeur());
                 }
             }
 
-            if(evenementDemandes.size() >= pDemande.getActivite().getNbParticipants())
-            {
+            if (evenementDemandes.size() >= pDemande.getActivite().getNbParticipants()) {
                 EvenementDao evenementDao = new EvenementDao();
-                
-                if(pDemande.getActivite().isParEquipe())
-                {
-                    EvenementParEquipe nouvelEvenement = new EvenementParEquipe(pDemande.getDateEvenement(),pDemande.getActivite(),evenementDemandes);
-                    
-                    for (int i = 0 ; i <pDemande.getActivite().getNbParticipants() ; i++)
-                    {
+
+                if (pDemande.getActivite().isParEquipe()) {
+                    EvenementParEquipe nouvelEvenement = new EvenementParEquipe(pDemande.getDateEvenement(), pDemande.getActivite(), evenementDemandes);
+
+                    for (int i = 0; i < pDemande.getActivite().getNbParticipants(); i++) {
                         Random rand = new Random();
                         int nombreAleatoire = rand.nextInt(pDemande.getActivite().getNbParticipants()-i);
                         
@@ -221,41 +225,58 @@ public class ServiceMetier {
                             participants.remove(nombreAleatoire);
                         }
                     }
-                    
+
                     evenementDao.create(nouvelEvenement);
-                }
-                else
-                {
-                    EvenementSansEquipe nouvelEvenement = new EvenementSansEquipe(pDemande.getDateEvenement(),pDemande.getActivite(),evenementDemandes,participants);
+                } else {
+                    EvenementSansEquipe nouvelEvenement = new EvenementSansEquipe(pDemande.getDateEvenement(), pDemande.getActivite(), evenementDemandes, participants);
                     evenementDao.create(nouvelEvenement);
                 }
             }
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
     }
-    
-    static public List<Lieu> recupererLieux()
-    {
+
+    static public List<Lieu> recupererLieux() {
         LieuDao lieuDao = new LieuDao();
         List<Lieu> lieux = null;
-        
+
         JpaUtil.creerEntityManager();
         JpaUtil.ouvrirTransaction();
-        
+
         try {
-            lieux=lieuDao.findAll();
+            lieux = lieuDao.findAll();
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         JpaUtil.validerTransaction();
         JpaUtil.fermerEntityManager();
-        
+
         return lieux;
+    }
+    
+    static public List<Evenement> recupererEvenement()
+    {
+        EvenementDao evenementDao = new EvenementDao();
+        List<Evenement> evenements = null;
+        
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+
+        try {
+            evenements = evenementDao.findAll();
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
+
+        return evenements;
     }
 
 }
