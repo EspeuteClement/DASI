@@ -1,13 +1,52 @@
 package presentation;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import modele.Activite;
 import modele.Demande;
 import service.ServiceMetier;
+import util.Saisie;
 
 public class Main {
+
     public static void main(String[] args) {
-        //ServiceMetier.inscrireAdherent("Capelle", "Victor", "36 rue de la cité 69003 Lyon", "capellev.info@gmail.com", "admin");
-        System.out.println(ServiceMetier.connexionAdherent("capellev.info@gmail.com", "admin").toString());
+        
+        while (true) {
+            System.out.println("COLLECT'IF");
+            System.out.println("1 - Lister les activités");
+            System.out.println("2 - Lister l'historique des demandes d'un utilisateur");
+            System.out.println("3 - Lister les évènements");
+            System.out.println("4 - Créer un adhérent");
+            System.out.println("5 - Créer une demande");
+            System.out.println("6 - Quitter");
+
+            List<Integer> menuChoix = new ArrayList<Integer>();
+            menuChoix.add(1);
+            menuChoix.add(2);
+            menuChoix.add(3);
+            menuChoix.add(4);
+            menuChoix.add(5);
+            menuChoix.add(6);
+
+            int choix = Saisie.lireInteger("Choisissez une option", menuChoix);
+
+            switch (choix) {
+                case 1:
+                    List<Activite> activites = ServiceMetier.recupererActivites();
+                    for(Activite activite : activites)
+                    {
+                        System.out.println(activite.toString());
+                    }
+                    break;
+                default:
+                    break;
+
+            }
+
+            if (choix == 6) {
+                break;
+            }
+        }
     }
 }
