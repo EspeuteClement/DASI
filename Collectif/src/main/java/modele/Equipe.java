@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 public class Equipe implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
         
     @ManyToMany
     private List<Adherent> participants;
@@ -22,7 +22,7 @@ public class Equipe implements Serializable{
         participants = new ArrayList<>();
     }
     
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
     

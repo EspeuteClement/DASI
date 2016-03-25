@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 public class Demande implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     private Date dateDemande;
     private Date dateEvenement;
     
@@ -36,7 +36,7 @@ public class Demande implements Serializable {
         this.evenement = null;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
     
