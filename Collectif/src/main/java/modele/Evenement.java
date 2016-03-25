@@ -51,12 +51,28 @@ public abstract class Evenement implements Serializable {
         return lieu;
     }
     
+    public Activite getActivite() {
+        return activite;
+    }
+    
+    public List<Demande> getDemandes() {
+        return demandes;
+    }
+    
     public void setDate(Date date) {
         this.dateEvenement = date;
     }
     
     public void setLieu(Lieu lieu) {
         this.lieu = lieu;
+    }
+    
+    public void setActivite(Activite activite) {
+        this.activite = activite;
+    }
+    
+    public void setDemandes(List<Demande> demandes) {
+        this.demandes = demandes;
     }
 
     @Override
