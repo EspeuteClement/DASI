@@ -160,13 +160,13 @@ public class ServiceMetier {
 
             boolean dejaExistante = false;
             for (Demande demande : demandeur.getDemandes()) {
-                if (demande.getActivite().equals(activite) && demande.getDateEvenement().equals(date)) {
+                if (demande.getActivite().getId()==idActivite && demande.getDateEvenement().equals(date)) {
                     dejaExistante = true;
                 }
             }
 
             if (!dejaExistante) {
-                nouvelDemande = new Demande(date, Date.valueOf(LocalDate.now()), activite, demandeur);
+                nouvelDemande = new Demande(Date.valueOf(LocalDate.now()), date, activite, demandeur);
 
                 try {
                     demandeDao.create(nouvelDemande);
@@ -233,11 +233,23 @@ public class ServiceMetier {
                     }
 
                     evenementDao.create(nouvelEvenement);
+
+                    for (Demande demande : evenementDemandes) {
+                        demande.setEvenement(nouvelEvenement);
+                        demandeDao.update(demande);
+                    }
+
                 } else {
                     EvenementSansEquipe nouvelEvenement = new EvenementSansEquipe(pDemande.getDateEvenement(), pDemande.getActivite(), evenementDemandes, participants);
                     evenementDao.create(nouvelEvenement);
+
+                    for (Demande demande : evenementDemandes) {
+                        demande.setEvenement(nouvelEvenement);
+                        demandeDao.update(demande);
+                    }
                 }
             }
+
         } catch (Throwable ex) {
             Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
         }
