@@ -10,10 +10,21 @@ import util.GeoTest;
 
 public class ServiceTechnique {
 
+    /**
+     * Récupère la géolocalisation d'une adresse.
+     * @param adresse Adresse à géolocaliser.
+     * @return Retourne un objet LatLng contenant la latitude et la longitude de l'adresse.
+     */
     static public LatLng recuperationGeoloc(String adresse) {
         return GeoTest.getLatLng(adresse);
     }
     
+    /**
+     * Calcule la distance entre l'adresse d'un adhérent et un lieu.
+     * @param pAdherent Adhérent.
+     * @param pLieu Lieu.
+     * @return Retourne la distance entre l'adresse de l'adhérent et du lieu.
+     */
     static public double Distance(Adherent pAdherent, Lieu pLieu)
     {
         double distance;
@@ -23,6 +34,11 @@ public class ServiceTechnique {
         return distance;
     }
 
+    /**
+     * Envoie un mail à l'adhérent confirmant on infirmant son inscription.
+     * @param pAdherent Adhérent destinataire du mail.
+     * @param inscriptionReussi True si l'inscription a réussi, false sinon.
+     */
     static public void mailAdherentInscription(Adherent pAdherent, boolean inscriptionReussi) {
         System.out.println("Expediteur : collectif@collectif.org");
         System.out.println("Pour : " + pAdherent.getMail());
@@ -39,6 +55,11 @@ public class ServiceTechnique {
         }
     }
 
+    /**
+     * Envoie un mail au responsable le prévenant d'une inscrption ou d'une tentative d'inscription en cas d'échec.
+     * @param pAdherent Adhérent inscrit.
+     * @param inscriptionReussi True si l'inscription a réussi, false sinon.
+     */
     static public void mailResponsableInscription(Adherent pAdherent, boolean inscriptionReussi) {
         System.out.println("Expediteur : collectif@collectif.org");
         System.out.println("Pour : admin@collectif.org");
@@ -55,6 +76,11 @@ public class ServiceTechnique {
         }
     }
     
+    /**
+     * Envoi un mail à un adhérent le prévenant qu'un évènement a été créé et localisé.
+     * @param pAdherent Destinataire.
+     * @param pEvenement Evènement créé.
+     */
     static public void mailParticipantEvenement(Adherent pAdherent, Evenement pEvenement)
     {
         System.out.println("Expediteur : collectif@collectif.org");

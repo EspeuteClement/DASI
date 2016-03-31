@@ -25,6 +25,15 @@ import modele.Lieu;
 
 public class ServiceMetier {
 
+    /**
+     * Créé un adhérent selon les paramètres et le sauvegarde dans la base de données.
+     * Un mail est envoyé à l'adhérent et le responsabl pour confirmer ou infirmer l'inscription.
+     * @param nom Nom de l'adhérent.
+     * @param prenom Prénom de l'adhérent.
+     * @param adresse Adresse de l'adhérent.
+     * @param mail Mail de l'adhérent.
+     * @return Retourne l'adhérent créé ou null si l'inscription a échoué.
+     */
     static public Adherent inscrireAdherent(String nom, String prenom, String adresse, String mail) {
         AdherentDao adherentDao = new AdherentDao();
         Adherent nouvelAdherent = new Adherent(nom, prenom, adresse, mail);
@@ -61,6 +70,12 @@ public class ServiceMetier {
         }
     }
 
+    /**
+     * Connecte un adhérent selon un mail et un numéro d'adhérent.
+     * @param mail Mail d'un adhérent inscrit.
+     * @param idAdherent Numéro de l'adhérent.
+     * @return Retourne l'adhérent connecté ou null si la connexion a échouée.
+     */
     static public Adherent connexionAdherent(String mail, long idAdherent) {
         List<Adherent> listeAdherent = null;
         AdherentDao adherentDao = new AdherentDao();
@@ -89,6 +104,11 @@ public class ServiceMetier {
         return null;
     }
 
+    /**
+     * Récupère la liste de demandes d'un adhérent.
+     * @param idAdherent Id de l'adhérent.
+     * @return Retourne la liste de demandes de l'adhérent.
+     */
     static public List<Demande> recupererAdherentDemandes(long idAdherent) {
         AdherentDao adherentDao = new AdherentDao();
         Adherent adherent = null;
@@ -110,6 +130,10 @@ public class ServiceMetier {
         return adherentDemandes;
     }
 
+    /**
+     * Récupère la liste d'activités présentes dans la base de données.
+     * @return Retourne la liste de toutes les activités.
+     */
     static public List<Activite> recupererActivites() {
         ActiviteDao activiteDao = new ActiviteDao();
         List<Activite> activiteList = null;
@@ -129,6 +153,15 @@ public class ServiceMetier {
         return activiteList;
     }
 
+    /**
+     * Crée une demande d'évènement pour un adhérent.
+     * Un adhérent ne peut poster qu'une seule demande pour une combinaison Activité/Date.
+     * Appel de la méthode de création d'évènement si le nombre de demande pour la combinaison Activite/Date correspond au nombre de participants requis.
+     * @param idAdherent Id de l'adhérent.
+     * @param idActivite Id de l'activité.
+     * @param date Date de l'évènement.
+     * @return Retourne true si la création de demande c'est bien passé, sinon retourne false.
+     */
     static public boolean posterDemande(long idAdherent, long idActivite, Date date) {
         AdherentDao adherentDao = new AdherentDao();
         ActiviteDao activiteDao = new ActiviteDao();
@@ -193,6 +226,11 @@ public class ServiceMetier {
         return succes;
     }
 
+    /**
+     * Créé un évènement correspondant à la demande entré en paramètre.
+     * La méthode récupère toutes les demandes et les adhérents lui correspondant pour composer la liste de participant ou les équipes.
+     * @param pDemande Demande source.
+     */
     static public void creerEvenement(Demande pDemande) {
         DemandeDao demandeDao = new DemandeDao();
         List<Demande> demandes = null;
@@ -258,6 +296,10 @@ public class ServiceMetier {
         JpaUtil.fermerEntityManager();
     }
 
+    /**
+     * Récupère la liste des lieux présents sur la base de données.
+     * @return La liste de tous les lieux.
+     */
     static public List<Lieu> recupererLieux() {
         LieuDao lieuDao = new LieuDao();
         List<Lieu> lieux = null;
@@ -296,6 +338,12 @@ public class ServiceMetier {
         return evenements;
     }
 
+    /**
+     * Affecte un lieu à un évènement.
+     * Envoie un mail aux participants leur donnant le lieu de l'évènement.
+     * @param idEvenement Id de l'évènement.
+     * @param idLieu Id du lieu.
+     */
     static public void affecterLieuEvenement(long idEvenement, long idLieu) {
         LieuDao lieuDao = new LieuDao();
         EvenementDao evenementDao = new EvenementDao();
@@ -341,6 +389,11 @@ public class ServiceMetier {
         }
     }
 
+    /**
+     * Récupère un évènement.
+     * @param idEvenement Id de l'évènement.
+     * @return Retourne l'évènement correspoind à l'id en paramètre, retourne false si l'id ne correspond à aucun évènement.
+     */
     static public Evenement recupererUnEvenement(long idEvenement) {
         EvenementDao evenementDao = new EvenementDao();
 
