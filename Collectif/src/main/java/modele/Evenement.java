@@ -78,7 +78,7 @@ public abstract class Evenement implements Serializable {
     @Override
     public String toString() {
         String output = "Evenement{" + "id=" + id + ", Date=" +
-                dateEvenement.toString() + " " + lieu.toString() + " " +
+                dateEvenement.toString() + " " +
                 activite.toString() + "\r\nDemandes de l'évènement :\r\n" + '}';
         for(Demande demande : demandes) {
             output += demande.toString() + "\r\n";
