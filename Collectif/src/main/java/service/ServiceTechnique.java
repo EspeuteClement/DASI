@@ -56,7 +56,7 @@ public class ServiceTechnique {
     }
 
     /**
-     * Envoie un mail au responsable le prévenant d'une inscrption ou d'une tentative d'inscription en cas d'échec.
+     * Envoie un mail au responsable le prévenant d'une inscription ou d'une tentative d'inscription en cas d'échec.
      * @param pAdherent Adhérent inscrit.
      * @param inscriptionReussi True si l'inscription a réussi, false sinon.
      */
@@ -77,9 +77,9 @@ public class ServiceTechnique {
     }
     
     /**
-     * Envoi un mail à un adhérent le prévenant qu'un évènement a été créé et localisé.
+     * Envoie un mail à un adhérent le prévenant qu'un événement a été créé et localisé.
      * @param pAdherent Destinataire.
-     * @param pEvenement Evènement créé.
+     * @param pEvenement Evénement créé.
      */
     static public void mailParticipantEvenement(Adherent pAdherent, Evenement pEvenement)
     {
