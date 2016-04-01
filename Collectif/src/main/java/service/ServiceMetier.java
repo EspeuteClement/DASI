@@ -29,7 +29,7 @@ public class ServiceMetier {
      * Créé un adhérent selon les paramètres et le sauvegarde dans la base de
      * données. Un mail est envoyé à l'adhérent et le responsabl pour confirmer
      * ou infirmer l'inscription.
-     * 
+     *
      * @param nom Nom de l'adhérent.
      * @param prenom Prénom de l'adhérent.
      * @param adresse Adresse de l'adhérent.
@@ -73,8 +73,9 @@ public class ServiceMetier {
     }
 
     /**
-     * Connecte un adhérent ou l'admin selon un mail et un numéro d'adhérent / mot de passe admin.
-     * 
+     * Connecte un adhérent ou l'admin selon un mail et un numéro d'adhérent /
+     * mot de passe admin.
+     *
      * @param mail Mail d'un adhérent inscrit.
      * @param idAdherent Numéro de l'adhérent / mot de passe admin.
      * @return Retourne l'adhérent connecté ou null si la connexion a échouée.
@@ -109,7 +110,7 @@ public class ServiceMetier {
 
     /**
      * Récupère la liste de demandes d'un adhérent.
-     * 
+     *
      * @param idAdherent Id de l'adhérent.
      * @return Retourne la liste de demandes de l'adhérent.
      */
@@ -163,7 +164,7 @@ public class ServiceMetier {
      * qu'une seule demande pour une combinaison Activité/Date. Appel de la
      * méthode de création d'évènement si le nombre de demande pour la
      * combinaison Activite/Date correspond au nombre de participants requis.
-     * 
+     *
      * @param idAdherent Id de l'adhérent.
      * @param idActivite Id de l'activité.
      * @param date Date de l'évènement.
@@ -237,7 +238,7 @@ public class ServiceMetier {
      * Créé un événement correspondant à la demande entrée en paramètre. La
      * méthode récupère toutes les demandes et les adhérents lui correspondant
      * pour composer la liste de participant ou les équipes.
-     * 
+     *
      * @param pDemande Demande source.
      */
     static public void creerEvenement(Demande pDemande) {
@@ -253,10 +254,13 @@ public class ServiceMetier {
             demandes = demandeDao.findAll();
 
             for (Demande demande : demandes) {
-                if (demande.getActivite().equals(pDemande.getActivite()) && demande.getDateEvenement().equals(pDemande.getDateEvenement()));
-                {
-                    evenementDemandes.add(demande);
-                    participants.add(demande.getDemandeur());
+
+                if (demande.getEvenement() == null) {
+                    if (demande.getActivite().equals(pDemande.getActivite()) && demande.getDateEvenement().equals(pDemande.getDateEvenement()));
+                    {
+                        evenementDemandes.add(demande);
+                        participants.add(demande.getDemandeur());
+                    }
                 }
             }
 
@@ -351,7 +355,7 @@ public class ServiceMetier {
     /**
      * Affecte un lieu à un événement. Envoie un mail aux participants leur
      * donnant le lieu de l'évènement.
-     * 
+     *
      * @param idEvenement Id de l'évènement.
      * @param idLieu Id du lieu.
      */
