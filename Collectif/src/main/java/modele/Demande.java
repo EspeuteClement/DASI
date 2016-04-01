@@ -14,8 +14,6 @@ public class Demande implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Version
-    private long version;
     private Long id;
     private Date dateDemande;
     private Date dateEvenement;

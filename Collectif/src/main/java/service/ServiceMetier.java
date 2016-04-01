@@ -5,6 +5,7 @@ import dao.ActiviteDao;
 import modele.Adherent;
 import dao.AdherentDao;
 import dao.DemandeDao;
+import dao.EquipeDao;
 import dao.EvenementDao;
 import dao.JpaUtil;
 import dao.LieuDao;
@@ -256,10 +257,12 @@ public class ServiceMetier {
             for (Demande demande : demandes) {
 
                 if (demande.getEvenement() == null) {
-                    if (demande.getActivite().equals(pDemande.getActivite()) && demande.getDateEvenement().equals(pDemande.getDateEvenement()));
+                    if (demande.getActivite().equals(pDemande.getActivite()));
                     {
-                        evenementDemandes.add(demande);
-                        participants.add(demande.getDemandeur());
+                        if (demande.getDateEvenement().equals(pDemande.getDateEvenement())) {
+                            evenementDemandes.add(demande);
+                            participants.add(demande.getDemandeur());
+                        }
                     }
                 }
             }
@@ -268,6 +271,7 @@ public class ServiceMetier {
                 EvenementDao evenementDao = new EvenementDao();
 
                 if (pDemande.getActivite().isParEquipe()) {
+                    EquipeDao  equipeDao = new EquipeDao();
                     EvenementParEquipe nouvelEvenement = new EvenementParEquipe(pDemande.getDateEvenement(), pDemande.getActivite(), evenementDemandes);
 
                     for (int i = 0; i < pDemande.getActivite().getNbParticipants(); i++) {
@@ -282,8 +286,12 @@ public class ServiceMetier {
                             participants.remove(nombreAleatoire);
                         }
                     }
+                    
+                    equipeDao.create(nouvelEvenement.getEquipeA());
+                    equipeDao.create(nouvelEvenement.getEquipeB());
 
                     evenementDao.create(nouvelEvenement);
+                    System.out.println(nouvelEvenement);
 
                     for (Demande demande : evenementDemandes) {
                         demande.setEvenement(nouvelEvenement);
