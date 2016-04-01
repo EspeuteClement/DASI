@@ -9,8 +9,8 @@ import dao.EvenementDao;
 import dao.JpaUtil;
 import dao.LieuDao;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -206,7 +206,7 @@ public class ServiceMetier {
             }
 
             if (!dejaExistante) {
-                nouvelDemande = new Demande(Date.valueOf(LocalDate.now()), date, activite, demandeur);
+                nouvelDemande = new Demande(new java.sql.Date(Calendar.getInstance().getTime().getTime()), date, activite, demandeur);
 
                 try {
                     demandeDao.create(nouvelDemande);
