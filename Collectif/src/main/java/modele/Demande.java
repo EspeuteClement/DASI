@@ -7,15 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Version;
 
 @Entity
 public class Demande implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Version
-    private long version;
     private Long id;
     private Date dateDemande;
     private Date dateEvenement;
