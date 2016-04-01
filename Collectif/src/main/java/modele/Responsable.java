@@ -2,18 +2,18 @@ package modele;
 
 public class Responsable  {
     private String mail;
-    private String mdp;
+    private long mdp;
 
     public Responsable() {
-        this.mail = "admin";
-        this.mdp = "admin";
+        this.mail = "admin@collect_if.com";
+        this.mdp = 10278393;
     }
 
     public String getMail() {
         return mail;
     }
     
-    public String getMdp () {
+    public long getMdp () {
         return mdp;
     }
 
@@ -21,7 +21,7 @@ public class Responsable  {
         this.mail = mail;
     }
     
-    public void setMdp (String mdp) {
+    public void setMdp (long mdp) {
         this.mdp = mdp;
     }
 
