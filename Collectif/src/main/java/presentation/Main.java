@@ -23,7 +23,8 @@ public class Main {
             System.out.println("3 - Lister les évènements");
             System.out.println("4 - Créer un adhérent");
             System.out.println("5 - Créer une demande");
-            System.out.println("6 - Quitter");
+            System.out.println("6 - Affecter un lieu à un évènement");
+            System.out.println("7 - Quitter");
 
             List<Integer> menuChoix = new ArrayList<Integer>();
             menuChoix.add(1);
@@ -32,6 +33,7 @@ public class Main {
             menuChoix.add(4);
             menuChoix.add(5);
             menuChoix.add(6);
+            menuChoix.add(7);
 
             int choix = Saisie.lireInteger("Choisissez une option", menuChoix);
 
@@ -81,18 +83,25 @@ public class Main {
                         for (Demande demande : demandes) {
                             System.out.println(demande.toString());
                         }
-                    }
-                    else
-                    {
+                    } else {
                         System.out.println("Erreur de création de demande.");
                     }
 
+                    break;
+                case 6:
+                    long idEvenement = (long) Saisie.lireInteger("Saisissez l'id d'un évènement sans lieu.");
+                    long idLieu = (long) Saisie.lireInteger("Saisissez l'id d'un lieu");
+                    ServiceMetier.affecterLieuEvenement(idEvenement, idLieu);
+                    evenements = ServiceMetier.recupererEvenement();
+                    for (Evenement evenement : evenements) {
+                        System.out.println(evenement.toString());
+                    }
                     break;
                 default:
                     break;
             }
 
-            if (choix == 6) {
+            if (choix == 7) {
                 break;
             }
         }

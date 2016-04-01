@@ -26,8 +26,10 @@ import modele.Lieu;
 public class ServiceMetier {
 
     /**
-     * Créé un adhérent selon les paramètres et le sauvegarde dans la base de données.
-     * Un mail est envoyé à l'adhérent et le responsabl pour confirmer ou infirmer l'inscription.
+     * Créé un adhérent selon les paramètres et le sauvegarde dans la base de
+     * données. Un mail est envoyé à l'adhérent et le responsabl pour confirmer
+     * ou infirmer l'inscription.
+     *
      * @param nom Nom de l'adhérent.
      * @param prenom Prénom de l'adhérent.
      * @param adresse Adresse de l'adhérent.
@@ -72,6 +74,7 @@ public class ServiceMetier {
 
     /**
      * Connecte un adhérent selon un mail et un numéro d'adhérent.
+     *
      * @param mail Mail d'un adhérent inscrit.
      * @param idAdherent Numéro de l'adhérent.
      * @return Retourne l'adhérent connecté ou null si la connexion a échouée.
@@ -106,6 +109,7 @@ public class ServiceMetier {
 
     /**
      * Récupère la liste de demandes d'un adhérent.
+     *
      * @param idAdherent Id de l'adhérent.
      * @return Retourne la liste de demandes de l'adhérent.
      */
@@ -132,6 +136,7 @@ public class ServiceMetier {
 
     /**
      * Récupère la liste d'activités présentes dans la base de données.
+     *
      * @return Retourne la liste de toutes les activités.
      */
     static public List<Activite> recupererActivites() {
@@ -154,13 +159,16 @@ public class ServiceMetier {
     }
 
     /**
-     * Crée une demande d'évènement pour un adhérent.
-     * Un adhérent ne peut poster qu'une seule demande pour une combinaison Activité/Date.
-     * Appel de la méthode de création d'évènement si le nombre de demande pour la combinaison Activite/Date correspond au nombre de participants requis.
+     * Crée une demande d'évènement pour un adhérent. Un adhérent ne peut poster
+     * qu'une seule demande pour une combinaison Activité/Date. Appel de la
+     * méthode de création d'évènement si le nombre de demande pour la
+     * combinaison Activite/Date correspond au nombre de participants requis.
+     *
      * @param idAdherent Id de l'adhérent.
      * @param idActivite Id de l'activité.
      * @param date Date de l'évènement.
-     * @return Retourne true si la création de demande c'est bien passé, sinon retourne false.
+     * @return Retourne true si la création de demande c'est bien passé, sinon
+     * retourne false.
      */
     static public boolean posterDemande(long idAdherent, long idActivite, Date date) {
         AdherentDao adherentDao = new AdherentDao();
@@ -193,7 +201,7 @@ public class ServiceMetier {
 
             boolean dejaExistante = false;
             for (Demande demande : demandeur.getDemandes()) {
-                if (demande.getActivite().getId()==idActivite && demande.getDateEvenement().equals(date)) {
+                if (demande.getActivite().getId() == idActivite && demande.getDateEvenement().equals(date)) {
                     dejaExistante = true;
                 }
             }
@@ -227,8 +235,10 @@ public class ServiceMetier {
     }
 
     /**
-     * Créé un évènement correspondant à la demande entré en paramètre.
-     * La méthode récupère toutes les demandes et les adhérents lui correspondant pour composer la liste de participant ou les équipes.
+     * Créé un évènement correspondant à la demande entré en paramètre. La
+     * méthode récupère toutes les demandes et les adhérents lui correspondant
+     * pour composer la liste de participant ou les équipes.
+     *
      * @param pDemande Demande source.
      */
     static public void creerEvenement(Demande pDemande) {
@@ -298,6 +308,7 @@ public class ServiceMetier {
 
     /**
      * Récupère la liste des lieux présents sur la base de données.
+     *
      * @return La liste de tous les lieux.
      */
     static public List<Lieu> recupererLieux() {
@@ -339,8 +350,9 @@ public class ServiceMetier {
     }
 
     /**
-     * Affecte un lieu à un évènement.
-     * Envoie un mail aux participants leur donnant le lieu de l'évènement.
+     * Affecte un lieu à un évènement. Envoie un mail aux participants leur
+     * donnant le lieu de l'évènement.
+     *
      * @param idEvenement Id de l'évènement.
      * @param idLieu Id du lieu.
      */
@@ -391,8 +403,10 @@ public class ServiceMetier {
 
     /**
      * Récupère un évènement.
+     *
      * @param idEvenement Id de l'évènement.
-     * @return Retourne l'évènement correspoind à l'id en paramètre, retourne false si l'id ne correspond à aucun évènement.
+     * @return Retourne l'évènement correspoind à l'id en paramètre, retourne
+     * false si l'id ne correspond à aucun évènement.
      */
     static public Evenement recupererUnEvenement(long idEvenement) {
         EvenementDao evenementDao = new EvenementDao();
