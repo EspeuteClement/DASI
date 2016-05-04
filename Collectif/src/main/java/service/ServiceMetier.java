@@ -101,7 +101,7 @@ public class ServiceMetier {
             Adherent adherent;
             adherent = listeAdherent.get(i);
 
-            if (adherent.getId().equals(idAdherent)) {
+            if (adherent.getId() == idAdherent) {
                 return adherent;
             }
         }
@@ -257,9 +257,8 @@ public class ServiceMetier {
             for (Demande demande : demandes) {
 
                 if (demande.getEvenement() == null) {
-                    if (demande.getActivite().equals(pDemande.getActivite()));
-                    {
-                        if (demande.getDateEvenement().equals(pDemande.getDateEvenement())) {
+                    if (demande.getActivite().getId() == pDemande.getActivite().getId()) {
+                        if (demande.getDateEvenement().compareTo(pDemande.getDateEvenement()) == 0) {
                             evenementDemandes.add(demande);
                             participants.add(demande.getDemandeur());
                         }
@@ -271,7 +270,7 @@ public class ServiceMetier {
                 EvenementDao evenementDao = new EvenementDao();
 
                 if (pDemande.getActivite().isParEquipe()) {
-                    EquipeDao  equipeDao = new EquipeDao();
+                    EquipeDao equipeDao = new EquipeDao();
                     EvenementParEquipe nouvelEvenement = new EvenementParEquipe(pDemande.getDateEvenement(), pDemande.getActivite(), evenementDemandes);
 
                     for (int i = 0; i < pDemande.getActivite().getNbParticipants(); i++) {
@@ -286,7 +285,7 @@ public class ServiceMetier {
                             participants.remove(nombreAleatoire);
                         }
                     }
-                    
+
                     equipeDao.create(nouvelEvenement.getEquipeA());
                     equipeDao.create(nouvelEvenement.getEquipeB());
 

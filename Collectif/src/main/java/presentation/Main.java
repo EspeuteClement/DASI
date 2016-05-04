@@ -78,7 +78,7 @@ public class Main {
                     break;
                 case 5:
                     idAdherent = (long) Saisie.lireInteger("Saisissez l'id d'un adhérent.");
-                    if (ServiceMetier.posterDemande(idAdherent, 29, new Date(27, 04, 2016))) {
+                    if (ServiceMetier.posterDemande(idAdherent, 38, new Date(27, 04, 2016))) {
                         demandes = ServiceMetier.recupererAdherentDemandes(idAdherent);
                         for (Demande demande : demandes) {
                             System.out.println(demande.toString());
