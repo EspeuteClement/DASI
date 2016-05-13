@@ -11,10 +11,20 @@
     <class>modele.EvenementSansEquipe</class>
     <class>modele.Equipe</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Collectoif_DB"/>
-      <property name="javax.persistence.jdbc.user" value="theadmin"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/CollectIFdasi"/>
+      <property name="javax.persistence.jdbc.user" value="name"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-      <property name="javax.persistence.jdbc.password" value="theadmin"/>
+      <property name="javax.persistence.jdbc.password" value="password"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="fr.insalyon.dasi_Collectif_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/CollectIFdasi"/>
+      <property name="javax.persistence.jdbc.user" value="name"/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+      <property name="javax.persistence.jdbc.password" value="password"/>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>

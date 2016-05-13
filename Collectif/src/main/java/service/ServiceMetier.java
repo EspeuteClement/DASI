@@ -159,6 +159,25 @@ public class ServiceMetier {
 
         return activiteList;
     }
+    
+    static public Activite recupererActiviteById(int Id) {
+        ActiviteDao activiteDao = new ActiviteDao();
+        Activite activite = null;
+
+        JpaUtil.creerEntityManager();
+        JpaUtil.ouvrirTransaction();
+
+        try {
+            activite = activiteDao.findById(Id);
+        } catch (Throwable ex) {
+            Logger.getLogger(ServiceMetier.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        JpaUtil.validerTransaction();
+        JpaUtil.fermerEntityManager();
+
+        return activite;
+    }
 
     /**
      * Crée une demande d'événement pour un adhérent. Un adhérent ne peut poster
